@@ -12,8 +12,19 @@ async function main() {
       state: 'PENDING',
       accountId: "-"
     },
-  })
-  console.log({ maz })
+  });
+  console.log({ maz });
+  const user = await prisma.person.upsert({
+    where: { email: 'leomanzanal@gmail.com' },
+    update: {},
+    create: {
+      email: 'leomanzanal@gmail.com',
+      fullName: 'Manza',
+      state: 'PENDING',
+      accountId: "-"
+    },
+  });
+  console.log({ user })
 }
 
 main()
