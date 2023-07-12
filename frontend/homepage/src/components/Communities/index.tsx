@@ -29,7 +29,7 @@ const Communities: NextPage = () => (
               </Center>
             </WrapItem>
             <WrapItem>
-              <Center w="228px" h="80px"  >
+              <Center w="228px" h="80px">
                 <Image alt="NEAR" src="assets/near.svg" />
               </Center>
             </WrapItem>
@@ -37,7 +37,7 @@ const Communities: NextPage = () => (
           <Flex justifyContent={"center"}>
             <Button
               fontWeight={500}
-              color={colors.brandBlue}
+              color="white"
               variant={"solid"}
               borderColor={colors.brandBlue}
               padding="22px 32px"
@@ -45,6 +45,15 @@ const Communities: NextPage = () => (
               borderStyle={"solid"}
               borderRadius="16px"
               fontSize={"20px"}
+              height={"64px"}
+              bg={colors.brandBlue}
+              _hover={{
+                bg: "white",
+                color: colors.brandBlue,
+                borderWidth: "3px",
+                borderColor: colors.brandBlue,
+                borderStyle: "solid",
+              }}
             >
               Add your community
             </Button>

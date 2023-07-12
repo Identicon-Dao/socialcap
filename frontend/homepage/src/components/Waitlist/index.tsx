@@ -31,6 +31,7 @@ const Waitlist: NextPage = () => {
           bg={colors.brandBlue}
           my={"54px"}
           borderRadius={"16px"}
+          height={"auto"}
         >
           <Stack
             color={colors.white}
@@ -51,9 +52,7 @@ const Waitlist: NextPage = () => {
               Join the waitlist and unlock the full potential of your community
               with legitimate, trustworthy, and valuable credentials
             </Text>
-            <SubscribeForm
-              w={{ base: "full", lg: "50%" }}
-            />
+            <SubscribeForm w={{ base: "full", lg: "50%" }} />
             <Image
               display={{ lg: "none" }}
               src={"/assets/waitlist-mobile.svg"}

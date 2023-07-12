@@ -45,7 +45,7 @@ export default function SubscribeForm({ ...props }: Props) {
 
             if (waitlist && waitlist?.length > 0) {
               // email exist
-              console.log("ALREADY ON THE WAITLIST")
+              console.log("ALREADY ON THE WAITLIST");
               setState("success");
             } else {
               console.log("adding email");
@@ -68,7 +68,7 @@ export default function SubscribeForm({ ...props }: Props) {
       >
         <FormControl>
           <Input
-            h="full"
+            h="64px"
             variant={"solid"}
             borderWidth={"3px"}
             borderColor={colors.white}
@@ -90,6 +90,7 @@ export default function SubscribeForm({ ...props }: Props) {
         <FormControl w={{ base: "100%", md: "25%" }}>
           <Button
             padding={"22px 32px"}
+            height={"64px"}
             bg={colors.white}
             borderWidth={"3px"}
             borderColor={colors.white}
@@ -100,6 +101,10 @@ export default function SubscribeForm({ ...props }: Props) {
             isLoading={state === "submitting"}
             w="100%"
             type={state === "success" ? "button" : "submit"}
+            _hover={{
+              color: "white",
+              bg: colors.brandBlue,
+            }}
           >
             {state === "success" ? <CheckIcon /> : "Join"}
           </Button>
