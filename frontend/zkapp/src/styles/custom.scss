@@ -1,0 +1,61 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+$font-family-sans-serif: "DM Sans", sans-serif;
+$primary: #1758fe;
+$primary: red;
+$black: #081638;
+$blue-100: #b5d6f4;
+$light: #f6f8ff;
+$dark: #788da0;
+$gray-500: #daddf1;
+$success: #42e37a;
+$h1-font-size: 32px;
+$h2-font-size: 18px;
+$h4-font-size: 16px;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Then add additional custom code here
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+body {
+  letter-spacing: -0.3px;
+}
+
+.navbar-nav .nav-item.active .nav-link,
+.navbar-nav .nav-item:hover .nav-link {
+  background: $light;
+  border-radius: 8px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.card-container {
+  cursor: pointer;
+  display: inline-block;
+}
+.card-container:hover {
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+  transition: 0.3s all;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  background-clip: border-box;
+  border: 1.8px solid #daddf1;
+  background-color: white;
+}
+
+.form-select {
+  width: auto;
+  border: 2px solid #daddf1;
+  color: $black;
+}
