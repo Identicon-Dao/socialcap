@@ -1,11 +1,9 @@
 import { fastify, prisma } from "../global.js";
-import { UID, ProvablePerson, PersonState } from "@socialcap/contracts"
+import { UID, PersonState } from "@socialcap/contracts"
 import { i18n as _ } from "../i18n/messages.js";
 import { hasError, hasResult } from "../responses.js";
-import { PERSONS_MERKLE_MAP } from "../dbs/index.js";
-import { updateMerkleMapOrRaise } from "../dbs/merkle-map-helpers.js";
-import { updatePersonOrRaise } from "../dbs/person-helpers.js";
-import { MinaService } from "../services/mina-service.js";
+import { updateEntity, getEntity } from "../dbs/any-entity-helpers.js";
+
 
 /**
  * signUp
@@ -63,28 +61,20 @@ export async function signUp(params: {
 }
 
 
+export async function getProfile(params: any) {
+  const uid = params.user.uid; // received from the JWT token
+  const person = await getEntity("person", uid);
+  return hasResult(person); 
+}
+
+
 export async function updateProfile(params: any) {
-  try {
-    const uid = params.uid;
-    const key = UID.toField(uid);
-    
-    // update Indexer
-    const person = await updatePersonOrRaise(uid, params);
+  const uid = params.uid;
 
-    // update Merkle
-    const provable = new ProvablePerson(person);
-    const {map, updated, witness} = await updateMerkleMapOrRaise(
-      PERSONS_MERKLE_MAP, uid, provable.hash()
-    );
- 
-    // call Mina service here ...
-    await MinaService.updatePersonsRootOrRaise(
-      provable, map, witness, updated
-    );
+  let rs = await updateEntity("person", uid, params);
 
-    return hasResult(person); 
-  }
-  catch (err: any) {
-    return hasError.This(err);
-  }
+  return hasResult({
+    profile: rs.proved,
+    transaction: rs.transaction
+  }); 
 }

@@ -1,0 +1,44 @@
+import { UTCDateTime } from "@socialcap/contracts"
+
+type SQLCommandCommand = {
+  text: string,
+  values: any[]
+}
+
+function insertPerson(params: any): SQLCommand {
+  return {
+    sql: "insert into persons(uid,state,email,full_name) values($1,$2,$3,$4)",
+    values: [params.uid, params.state, params.email, params.full_name]
+  }
+}
+
+function updatedPerson(params: any): SQLCommand {
+  return {
+    sql: "update persons set"+
+      "state=$2,email=$3,full_name=$4,account_id=$5,image=$5,phone=$7,telegram=$8,updated_utc=$9,approved_utc=$10"+
+      +" where uid=$1",
+    values: [params.uid, params.state, params.email, params.fullName,
+      params.accountId || "", params.image || "", params.phone, params.telegram,
+      params.updatedUTC, params.approvedUTC
+    ]
+  }
+}
+
+function insertCommunity(params: any): SQLCommand {
+  return {
+    text: "insert into comunities(uid,state,name,description,admin_uid) values($1,$2,$3,$4,$5)",
+    values: [params.uid, params.state, params.name, params.description, params.adminUid]
+  }
+}
+
+function updateCommunity(params: any): SQLCommand {
+  return {
+    sql: "update comunities(uid,state,name,description,adminUid) set values($1,$2,$3,$4,$5)",
+    values: [params.uid, params.state, params.name, params.description, params.adminUid]
+  }
+}
+
+/*
+  let c1 = insertPerson(params);
+  await client.query(c1.sql, c1.values)
+*/

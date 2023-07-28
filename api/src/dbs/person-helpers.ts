@@ -20,6 +20,9 @@ export async function updatePersonOrRaise(
   unsafeParams: any
 ): Promise<Person> {
   let params: any = PersonPartialSchema.safeParse(unsafeParams);
+  if (!params.success) 
+    raiseError.BadRequest(params.error);
+
   const p = await prisma.person.update({
     where: { uid: uid },
     data: params.data,

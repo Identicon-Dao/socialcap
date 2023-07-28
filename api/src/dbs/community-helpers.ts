@@ -54,3 +54,8 @@ export async function updateCommunityOrRaise(
 
   return upserted;
 }
+
+
+async function getMyCommunities(userUid: string) {
+  
+}

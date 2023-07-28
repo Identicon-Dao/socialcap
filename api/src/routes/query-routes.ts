@@ -5,6 +5,7 @@ import { FastifyInstance } from "fastify";
 import { hasError, UNKNOWN_ERROR } from '../errors.js';
 import { i18n as _ } from "../i18n/messages.js";
 import { queryHandlers } from "../controllers/index.js";
+import { logger } from "../global.js";
 
 /**
  * A plugin that provide encapsulated routes
@@ -21,7 +22,7 @@ async function queryRoutes(
     
     // extract call "params" from queryString "?params=JSON.stringified(...)"
     const query = (request.query as any);
-    let params = {}; 
+    let params: any = {}; 
     try { 
       params = JSON.parse(query.params); }
     catch (err) { 
@@ -40,6 +41,14 @@ async function queryRoutes(
     const needsAuthorized = handler['authorize'];
     if (needsAuthorized) {
       fastify.log.info(`Handler ${method} needs authorization`)
+      try {
+        const jwt: any = await request.jwtVerify(); 
+        console.log(jwt);
+        // add to the received params
+        params.user = { uid: jwt.uid?.replace(/-/g,'') }
+      } catch (err: any) {
+        return hasError.UnauthorizedError(err);
+      }      
     }
 
     // call the registered 'method' with given 'params'
@@ -48,6 +57,7 @@ async function queryRoutes(
       return await callFn(params);
     }
     catch (err) {
+      logger.error(`queryRoutes ${method} Error=${err}`);
       reply.code(UNKNOWN_ERROR).send(hasError.Unknown(
         _.unknown_error(method, `params=${JSON.stringify(params)}`)
       ));

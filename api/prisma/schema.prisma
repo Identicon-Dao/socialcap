@@ -7,7 +7,7 @@ generator client {
 }
 
 generator zod {
-  provider = "zod-prisma-types"
+  provider                         = "zod-prisma-types"
   useMultipleFiles                 = false // default is false
   writeBarrelFiles                 = true // default is true  
   createInputTypes                 = false // default is true
@@ -70,60 +70,147 @@ model Session {
   otp        String /// @zod.string.min(6).max(8)
   email      String /// @zod.string.email().min(5).max(128)
   createdUtc DateTime @default(now()) @map("created_utc")
-  updatedUtc DateTime @updatedAt @map("updated_utc")
+  updatedUtc DateTime @default(now()) @map("updated_utc")
 
   @@map("sessions")
 }
 
 model Person {
   uid         String    @id @unique /// @zod.string.max(32)
-  accountId   String?   @map("account_id")  /// @zod.string.max(32)
-  state       String    /// @zod.string.min(1).max(12)
+  accountId   String?   @map("account_id") /// @zod.string.max(32)
+  state       String /// @zod.string.min(1).max(12)
   fullName    String    @map("full_name") /// @zod.string.min(3).max(128)
   description String?   @default("") /// @zod.string.max(128)
-  image       String?   @default("") /// @zod.string.url().max(128) 
-  email       String    @unique  /// @zod.string.email().min(5).max(128)
+  image       String?   @default("") /// @zod.string.max(128) 
+  email       String    @unique /// @zod.string.email().min(5).max(128)
   phone       String?   @default("") /// @zod.string.max(128)
   telegram    String?   @default("") /// @zod.string.max(128)
   preferences String?   @default("{}")
   createdUTC  DateTime  @default(now()) @map("created_utc")
-  updatedUTC  DateTime? @updatedAt @map("updated_utc")
+  updatedUTC  DateTime? @default(now()) @map("updated_utc")
   approvedUTC DateTime? @map("approved_utc")
 
   // roles in Communities related to this Person
-  Members Members[]
+  // Members Members[]
 
   @@map("persons")
 }
 
 model Community {
-  uid         String   @id @unique /// @zod.string.max(32)
-  accountId   String?  @map("account_id") /// @zod.string.max(32)
-  adminUid    String   @map("admin_uid") /// @zod.string.max(32)
-  state       String   /// @zod.string.min(1).max(12) 
-  name        String   /// @zod.string.min(3).max(128)
-  description String?  /// @zod.string.max(128)
-  image       String?  /// @zod.string.url().max(128)
-  createdUtc  DateTime @default(now()) @map("created_utc")
-  updatedUtc  DateTime @updatedAt @map("updated_utc")
-  approvedUtc DateTime? @map("approved_utc")
-
-  // Persons related to this Community
-  Members Members[]
+  uid         String    @id @unique /// @zod.string.max(32)
+  accountId   String?   @map("account_id") /// @zod.string.max(32)
+  adminUid    String    @map("admin_uid") /// @zod.string.max(32)
+  state       String /// @zod.string.min(1).max(12) 
+  name        String /// @zod.string.min(3).max(128)
+  description String? /// @zod.string.max(128)
+  image       String? /// @zod.string.url().max(128)
+  createdUTC  DateTime  @default(now()) @map("created_utc")
+  updatedUTC  DateTime  @default(now()) @map("updated_utc")
+  approvedUTC DateTime? @map("approved_utc")
 
   @@map("communities")
 }
 
 model Members {
+  uid          String    @id @unique // is [communityUid:personUid]
   // members of this community
-  communityUid String   /// @zod.string.max(32)
-  community    Community @relation(fields: [communityUid], references: [uid])
-  personUid    String   /// @zod.string.max(32)
-  person       Person    @relation(fields: [personUid], references: [uid])
-  role         String    @default("NONE") /// @zod.string.max(32) // PLAIN, VALIDATOR, AUDITOR
-  createdUtc   DateTime  @default(now()) @map("created_utc")
-  approvedUtc  DateTime?
+  communityUid String /// @zod.string.max(32)
+  personUid    String /// @zod.string.max(32)
+  role         String    @default("0") /// @zod.string.max(32) // 1:PLAIN, 2:VALIDATOR, 3:AUDITOR
+  createdUTC   DateTime  @default(now()) @map("created_utc")
+  approvedUTC  DateTime?
 
-  @@id([communityUid, personUid])
   @@map("members")
+}
+
+model Claim {
+  uid               String    @id @unique
+  communityUid      String    @map("community_uid")
+  applicantUid      String    @map("applicant_uid")
+  planUid           String    @map("plan_uid")
+  state             Int
+  accountId         String?   @map("account_id")
+  alias             String?
+  createdUTC        DateTime  @default(now()) @map("created_utc")
+  updatedUTC        DateTime  @default(now()) @map("updated_utc")
+  votedUTC          DateTime? @map("voted_utc")
+  issuedUTC         DateTime? @map("issued_utc")
+  dueUTC            DateTime? @map("due_utc")
+  requiredVotes     Int?      @default(0) @map("required_votes")
+  requiredPositives Int?      @default(0) @map("required_positives")
+  positiveVotes     Int?      @default(0) @map("positive_votes")
+  negativeVotes     Int?      @default(0) @map("negative_votes")
+  ignoredVotes      Int?      @default(0) @map("ignored_votes")
+  evidenceData      String?   @default("") @map("evidence_data")
+
+  @@map("claims")
+}
+
+model Plan {
+  uid            String    @id @unique
+  communityUid   String    @map("community_uid")
+  state          Int
+  name           String    @default("")
+  alias          String?
+  description    String?   @default("")
+  image          String?   @default("")
+  template       String?   @default("")
+  evidence       String?   @default("[]")
+  strategy       String?   @default("{}")
+  createdUTC     DateTime  @default(now()) @map("created_utc")
+  updatedUTC     DateTime  @default(now()) @map("updated_utc")
+  approvedUTC    DateTime? @map("approved_utc")
+  fee            Int?      @default(0)
+  rewardsShare   Int?      @default(0) @map("rewards_share")
+  communityShare Int?      @default(0) @map("community_share")
+  protocolShare  Int?      @default(0) @map("protocol_share")
+  total          Int?      @default(1)
+  available      Int?      @default(1)
+  expiration     Int?      @default(0)
+  revocable      Boolean?  @default(false)
+  startsUTC      DateTime? @map("starts_utc")
+  endsUTC        DateTime? @map("ends_utc")
+
+  @@map("plans")
+}
+
+model Credential {
+  uid          String    @id @unique
+  communityUid String    @map("community_uid")
+  claimId      String    @map("claim_id")
+  applicantId  String    @map("applicant_id")
+  type         String?   @default("")
+  description  String?   @default("")
+  image        String?   @default("")
+  alias        String?   @default("")
+  starts       Int?      @default(0)
+  metadata     String?   @default("{}")
+  issuedUTC    DateTime? @map("issued_utc")
+  expiresUTC   DateTime? @map("expires _utc")
+
+  @@map("credentials")
+}
+
+model Task {
+  uid          String    @id @unique
+  claimUid     String    @map("claim_uid")
+  assigneeUid  String    @map("assignee_uid")
+  state        Int       @default(0)
+  assignedUTC  DateTime? @map("assigned_utc")
+  completedUTC DateTime? @map("completed_utc")
+  dueUTC       DateTime? @map("due_utc")
+  rewarded     Int?      @default(0)
+  reason       Int?      @default(0)
+
+  @@map("tasks")
+}
+
+model Proposed {
+  uid          String   @id @unique
+  role         String // "2": Validator, "3": Auditor
+  personUid    String   @map("person_uid")
+  communityUid String   @map("community_uid")
+  createdUTC   DateTime @default(now()) @map("created_utc")
+
+  @@map("proposeds")
 }

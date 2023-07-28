@@ -1,0 +1,133 @@
+import { Field } from "snarkyjs";
+import { ProvableCommunity, ProvablePerson, ProvableMember } from "@socialcap/contracts";
+import { prisma } from "../global.js";
+import { raiseError } from "../responses.js";
+
+export { getProvable, batchInserts, batchUpdates };
+
+
+const prismaHandler: any = {
+  "person": prisma.person,
+  "community": prisma.community,
+  "members": prisma.members,
+  "merkleLeaf": prisma.merkleMapLeaf
+}
+
+const merkleId: any = {
+  "person": 1,
+  "community": 2,
+  "members": 3,
+}
+
+const provableHandler: any = {
+  "person": ProvablePerson,
+  "community": ProvableCommunity,
+  "members": ProvableMember
+}
+
+
+async function batchInserts(
+  entityType: string, 
+  uid: string, 
+  data: any,
+): Promise<any> {
+  // get the target entity using its type  
+  // prepare insert for transaction
+  let entity: any = prismaHandler[entityType];
+  const insertEntity = entity.create({data: {
+    ...data
+  }})
+
+  // get the provable
+  let provable = getProvable(entityType, data);
+  const key = provable.key().toString();
+  const hash = provable.hash().toString()
+
+  // get Merkle Map 
+  const mapId = merkleId[entityType];
+
+  // get leafs count for incrementing
+  let leafs: any = prismaHandler["merkleLeaf"];
+  const count = await leafs.count({ where: { mapId: mapId } });
+  
+  // and prepare insert for transaction
+  const insertLeaf = leafs.create({data: { 
+    uid: data.uid, 
+    mapId:  mapId, 
+    index: count+1, 
+    key: key, 
+    hash: hash
+  }})
+
+  // now we can submit the transaction and the entity and leafs
+  // operations succeed or fail together  
+  await prisma.$transaction([
+    insertEntity,
+    insertLeaf
+  ])
+
+  return provable;
+}
+
+
+async function batchUpdates(
+  entityType: string, 
+  uid: string, 
+  data: any,
+): Promise<any> {
+  // get the target entity using its type  
+  // prepare insert for transaction
+  let entity: any = prismaHandler[entityType];
+  const updateEntity = entity.update({
+    where: { uid: uid },
+    data: { ...data }
+  })
+
+  // get the provable
+  let provable = getProvable(entityType, data);
+  const key = provable.key().toString();
+  const hash = provable.hash().toString()
+
+  // get Merkle Map 
+  const mapId = merkleId[entityType];
+
+  
+  // get leafs handler and prepare update for transaction
+  let leafs: any = prismaHandler["merkleLeaf"];
+  const updateLeaf = leafs.update({
+    where: { uid: data.uid }, 
+    data: { key: key, hash: hash }
+  })
+
+  // now we can submit the transaction and the entity and leafs
+  // operations succeed or fail together  
+  await prisma.$transaction([
+    updateEntity,
+    updateLeaf
+  ])
+
+  return provable;
+}
+
+
+/**
+ * Creates a provable object from the received data.
+ * @returns { provable, hash }
+ * @throws error if could not make it
+ */
+async function getProvable(
+  entityType: string, 
+  data: any
+): Promise<any> {
+  let hashed: Field = Field(0);
+  let provable;
+  try {
+    provable = new provableHandler[entityType](data);
+    hashed = provable.hash();
+  }
+  catch (err) { raiseError.DatabaseEngine(
+    `Could not validate 'provable ${entityType}' merkle map uid=${uid}`
+  )}
+
+  return provable;
+}
