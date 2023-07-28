@@ -1,0 +1,11 @@
+/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/deps/borsh-283e236cb6835c0c.rmeta: /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/lib.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/de/mod.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/de/hint.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/schema.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/schema_helpers.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/ser/mod.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/ser/helpers.rs
+
+/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/deps/borsh-283e236cb6835c0c.d: /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/lib.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/de/mod.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/de/hint.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/schema.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/schema_helpers.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/ser/mod.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/ser/helpers.rs
+
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/lib.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/de/mod.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/de/hint.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/schema.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/schema_helpers.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/ser/mod.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/borsh-0.10.3/src/ser/helpers.rs:

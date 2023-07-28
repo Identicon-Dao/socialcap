@@ -1,0 +1,26 @@
+[package]
+name = "registry"
+version = "0.1.0"
+authors = ["Leandro Manzanal 'leomanzanal@gmail.com'"]
+edition = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+uint.workspace = true
+near-sdk.workspace = true
+
+sbt = { path = "../sbt" }
+cost = { path = "../cost" }
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+anyhow.workspace = true
+tokio.workspace = true
+workspaces.workspace = true
+near-primitives.workspace = true
+near-units.workspace = true
+tracing.workspace = true

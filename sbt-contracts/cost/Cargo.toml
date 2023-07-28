@@ -1,0 +1,10 @@
+[package]
+name = "cost"
+version = "0.1.0"
+authors = ["Leandro Manzanal 'leomanzanal@gmail.com'"]
+edition = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[dependencies]
+near-sdk.workspace = true

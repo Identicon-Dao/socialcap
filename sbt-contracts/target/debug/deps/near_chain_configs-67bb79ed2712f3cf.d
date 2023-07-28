@@ -1,0 +1,8 @@
+/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/deps/near_chain_configs-67bb79ed2712f3cf.rmeta: /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/lib.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/client_config.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/genesis_config.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/genesis_validate.rs
+
+/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/deps/near_chain_configs-67bb79ed2712f3cf.d: /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/lib.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/client_config.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/genesis_config.rs /Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/genesis_validate.rs
+
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/lib.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/client_config.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/genesis_config.rs:
+/Users/apple-orchard/.cargo/registry/src/github.com-1ecc6299db9ec823/near-chain-configs-0.15.0/src/genesis_validate.rs:

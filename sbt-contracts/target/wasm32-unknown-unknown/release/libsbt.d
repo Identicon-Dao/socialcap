@@ -1,0 +1,1 @@
+/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/wasm32-unknown-unknown/release/libsbt.rlib: /Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/sbt/src/events.rs /Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/sbt/src/lib.rs /Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/sbt/src/metadata.rs

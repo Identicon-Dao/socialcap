@@ -1,0 +1,73 @@
+running: "cc" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-2" "-fno-omit-frame-pointer" "-arch" "arm64" "-Wall" "-Wextra" "-o" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/depend/check_uint128_t.o" "-c" "depend/check_uint128_t.c"
+exit status: 0
+running: ZERO_AR_DATE="1" "ar" "cq" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/libcheck_uint128_t.a" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/depend/check_uint128_t.o"
+exit status: 0
+running: "ar" "s" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/libcheck_uint128_t.a"
+exit status: 0
+TARGET = Some("aarch64-apple-darwin")
+OPT_LEVEL = Some("0")
+HOST = Some("aarch64-apple-darwin")
+cargo:rerun-if-env-changed=CC_aarch64-apple-darwin
+CC_aarch64-apple-darwin = None
+cargo:rerun-if-env-changed=CC_aarch64_apple_darwin
+CC_aarch64_apple_darwin = None
+cargo:rerun-if-env-changed=HOST_CC
+HOST_CC = None
+cargo:rerun-if-env-changed=CC
+CC = None
+cargo:rerun-if-env-changed=CFLAGS_aarch64-apple-darwin
+CFLAGS_aarch64-apple-darwin = None
+cargo:rerun-if-env-changed=CFLAGS_aarch64_apple_darwin
+CFLAGS_aarch64_apple_darwin = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = Some("aes,crc,dit,dotprod,dpb,dpb2,fcma,fhm,flagm,fp16,frintts,jsconv,lor,lse,neon,paca,pacg,pan,pmuv3,ras,rcpc,rcpc2,rdm,sb,sha2,sha3,ssbs,vh")
+cargo:rerun-if-env-changed=CC_aarch64-apple-darwin
+CC_aarch64-apple-darwin = None
+cargo:rerun-if-env-changed=CC_aarch64_apple_darwin
+CC_aarch64_apple_darwin = None
+cargo:rerun-if-env-changed=HOST_CC
+HOST_CC = None
+cargo:rerun-if-env-changed=CC
+CC = None
+cargo:rerun-if-env-changed=CFLAGS_aarch64-apple-darwin
+CFLAGS_aarch64-apple-darwin = None
+cargo:rerun-if-env-changed=CFLAGS_aarch64_apple_darwin
+CFLAGS_aarch64_apple_darwin = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = Some("aes,crc,dit,dotprod,dpb,dpb2,fcma,fhm,flagm,fp16,frintts,jsconv,lor,lse,neon,paca,pacg,pan,pmuv3,ras,rcpc,rcpc2,rdm,sb,sha2,sha3,ssbs,vh")
+running: "cc" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-2" "-fno-omit-frame-pointer" "-arch" "arm64" "-I" "depend/secp256k1/" "-I" "depend/secp256k1/include" "-I" "depend/secp256k1/src" "-Wall" "-Wextra" "-Wno-unused-function" "-DSECP256K1_BUILD=1" "-DECMULT_WINDOW_SIZE=8" "-DECMULT_GEN_PREC_BITS=4" "-DUSE_NUM_NONE=1" "-DUSE_FIELD_INV_BUILTIN=1" "-DUSE_SCALAR_INV_BUILTIN=1" "-DUSE_ENDOMORPHISM=1" "-DENABLE_MODULE_ECDH=1" "-DENABLE_MODULE_RECOVERY=1" "-DUSE_FIELD_5X52=1" "-DUSE_SCALAR_4X64=1" "-DHAVE___INT128=1" "-o" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/depend/secp256k1/contrib/lax_der_parsing.o" "-c" "depend/secp256k1/contrib/lax_der_parsing.c"
+exit status: 0
+running: "cc" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-gdwarf-2" "-fno-omit-frame-pointer" "-arch" "arm64" "-I" "depend/secp256k1/" "-I" "depend/secp256k1/include" "-I" "depend/secp256k1/src" "-Wall" "-Wextra" "-Wno-unused-function" "-DSECP256K1_BUILD=1" "-DECMULT_WINDOW_SIZE=8" "-DECMULT_GEN_PREC_BITS=4" "-DUSE_NUM_NONE=1" "-DUSE_FIELD_INV_BUILTIN=1" "-DUSE_SCALAR_INV_BUILTIN=1" "-DUSE_ENDOMORPHISM=1" "-DENABLE_MODULE_ECDH=1" "-DENABLE_MODULE_RECOVERY=1" "-DUSE_FIELD_5X52=1" "-DUSE_SCALAR_4X64=1" "-DHAVE___INT128=1" "-o" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/depend/ext.o" "-c" "depend/ext.c"
+exit status: 0
+cargo:rerun-if-env-changed=AR_aarch64-apple-darwin
+AR_aarch64-apple-darwin = None
+cargo:rerun-if-env-changed=AR_aarch64_apple_darwin
+AR_aarch64_apple_darwin = None
+cargo:rerun-if-env-changed=HOST_AR
+HOST_AR = None
+cargo:rerun-if-env-changed=AR
+AR = None
+cargo:rerun-if-env-changed=ARFLAGS_aarch64-apple-darwin
+ARFLAGS_aarch64-apple-darwin = None
+cargo:rerun-if-env-changed=ARFLAGS_aarch64_apple_darwin
+ARFLAGS_aarch64_apple_darwin = None
+cargo:rerun-if-env-changed=HOST_ARFLAGS
+HOST_ARFLAGS = None
+cargo:rerun-if-env-changed=ARFLAGS
+ARFLAGS = None
+running: ZERO_AR_DATE="1" "ar" "cq" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/libsecp256k1.a" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/depend/secp256k1/contrib/lax_der_parsing.o" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/depend/ext.o"
+exit status: 0
+running: "ar" "s" "/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out/libsecp256k1.a"
+exit status: 0
+cargo:rustc-link-lib=static=secp256k1
+cargo:rustc-link-search=native=/Users/apple-orchard/Projects/IDENTICON/socialcap/sbt-contracts/target/debug/build/parity-secp256k1-51329ce022143282/out
