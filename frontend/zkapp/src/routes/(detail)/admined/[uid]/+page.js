@@ -1,19 +1,12 @@
 
 import { error } from '@sveltejs/kit';
-import { 
-  getCommunity, getAdminedPlans, getAdminedAuditors,
-  getAdminedValidators, getAdminedMembers, getAdminedAdmins 
-} from "@apis/clients";
+
+import { getAdminedCommunity } from '@apis/queries';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
     if (params.uid !== "") {
-        let obj = await getCommunity(params.uid);
-        obj.plans = await getAdminedPlans(params.uid);
-        obj.validators = await getAdminedValidators(params.uid);
-        obj.auditors = await getAdminedAuditors(params.uid);
-        obj.members = await getAdminedMembers(params.uid);
-        obj.admins = await getAdminedAdmins(params.uid);
+        let obj = await getAdminedCommunity(params.uid);
         return JSON.parse(JSON.stringify(obj));
     }
 

@@ -5,14 +5,14 @@
       alt={plan.image ? "Claim logo" : " "} 
       width="56px" crossorigin/>
   </span>
-  <div class="col lh-base">
+  <div class="col lh-base text-start">
     <a href={`/admined/master-plan/${plan.uid}`} class="text-dark text-decoration-none">
       <b>{plan.name || "No name yet ..."}</b>
       <p class="fs-sm text-secondary m-0">
         {plan.description || "No description yet ..."}
       </p>
     </a>
-    <Badge pill color={stateColors[plan.state]}>{plan.state}</Badge>
+    <Badge pill color={stateColors[plan.state]}>{ALL_STATES[plan.state] || ""}</Badge>
   </div>
   <span class="col-4 fs-xs">
     <div class="row">
@@ -25,14 +25,16 @@
 
 <script>
   import { Badge } from "sveltestrap";
+  import { ALL_STATES } from "@socialcap/contracts";
 
   export let plan; 
 
-  // DRAFT; ACTIVE; PAUSED; INACTIVE
+  // [1,2,9,8,10]; // DRAFT,CANCELED,WAITING,ACTIVE,DONE
   let stateColors = {
-    "DRAFT": "warning",
-    "ACTIVE": "success",
-    "PAUSED": "secondary",
-    "INACTIVE": "danger"
+    1: "warning",
+    9: "info",
+    8: "success",
+    10: "secondary",
+    9: "danger"
   }
 </script>

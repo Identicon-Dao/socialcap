@@ -1,6 +1,6 @@
-<Card class="rounded-4 border border-4 border-primary text-white bg-primary shadow-sc">
-  <div class="position-absolute bottom-0 end-0 opacity-85">
-    <img class="svg" alt="" width="auto" src={"/img/svg/ClaimCard.svg"} />
+<Card class="border-1 border-gray rounded-4 text-white bg-primary">
+  <div class="position-absolute mb-4 me-2 bottom-0 end-0">
+    <img class="svg" alt="" width="80%" src={"/img/svg/ClaimCard.svg"} />
   </div>
   <div class="p-3 position-relative">
     <CardBody
@@ -8,9 +8,9 @@
     >
       <div>
         <h1 class="fs-1">Claim</h1>
-        <p class="fs-6 color-white">
+        <p class="fs-4 color-white">
           <Badge class="bg-black me-2">
-            <b class="fs-6">{data.stats.countClaimables}</b>
+            <b class="fs-4">{data.stats.countClaimables}</b>
           </Badge>available credentials
         </p>
       </div>

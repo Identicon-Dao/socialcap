@@ -36,7 +36,8 @@
 
         <p class="py-0 my-0">
           <a href={`/community/${data.uid}`} class="text-white text-decoration-none fs-sm">
-            <Button color="primary" size="sm" class="rounded-5 px-3 py-1">
+            <Button color="primary" size="sm" class="rounded-5 px-3 py-1"
+              on:click={() => joinIt(data.uid)}>
               Join now !
             </Button>
           </a>
@@ -52,20 +53,35 @@
 </Modal>
 
 <script>
-    import { Badge, Modal, Button, Card, CardBody, CardHeader } from "sveltestrap";
+  import JoinCommunityDialog from "@components/dialogs/JoinCommunityDialog.svelte";
+  import { Badge, Modal, Button, Card, CardBody, CardHeader } from "sveltestrap";
+  import { getCurrentUser } from "@models/current-user";
+  import { joinCommunity } from "@apis/mutations";
 
-    export let uid = 0, data, joined = false;
+  export let uid = 0, data, joined = false;
 
-    let openJoinDlg = false;
-    const toggleJoin = () => (openJoinDlg = !openJoinDlg);
+  let openJoinDlg = false;
+  const toggleJoin = () => (openJoinDlg = !openJoinDlg);
 
-    let openBecomeDlg = false;
-    const toggleBecome = () => (openBecomeDlg = !openBecomeDlg);
+  let openBecomeDlg = false;
+  const toggleBecome = () => (openBecomeDlg = !openBecomeDlg);
 
-    const stateColors = {
-      'DRAFT': 'warning',
-      'APPROVED': 'success',
-      'PAUSED': 'secondary',
-      'REJECTED': 'danger'
-    } 
+  const stateColors = {
+    'DRAFT': 'warning',
+    'APPROVED': 'success',
+    'PAUSED': 'secondary',
+    'REJECTED': 'danger'
+  } 
+
+  async function joinIt(communityUid) {
+    let user = await getCurrentUser();
+    const done = await joinCommunity({
+      communityUid: communityUid,
+      personUid: user.uid
+    })
+
+    if (done)
+      history.back();
+  }
+  
 </script>

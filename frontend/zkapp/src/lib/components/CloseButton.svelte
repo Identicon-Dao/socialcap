@@ -13,6 +13,6 @@
   import { Button, Icon } from "sveltestrap";
   export let 
     label = "",
-    color = "secondary", 
-    size = "fs-3";
+    color = "primary",
+    size = "fs-1";
 </script>

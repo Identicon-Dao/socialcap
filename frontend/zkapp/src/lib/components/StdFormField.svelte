@@ -1,4 +1,4 @@
-<FormGroup>
+<FormGroup class="text-start">
   <Label 
     for={idn}
     class="fw-bold fs-xs text-secondary ps-1 mb-1"

@@ -1,4 +1,4 @@
-<Card class="rounded-4 border border-2 border-gray text-black bg-white shadow-sc">
+<Card class="border-1 border-gray rounded-4 text-black bg-white">
   <div class="position-absolute mb-4 me-2 bottom-0 end-0 opacity-85">
     <img class="svg" alt="" width="90%" src={'/img/svg/JoinCard.svg'} />
   </div>
@@ -7,9 +7,9 @@
     >
       <div>
       <h1 class="fs-1">Join</h1>
-      <p class="fs-6 color-white">
+      <p class="fs-4 color-white">
       <Badge class="bg-black me-2">
-        <b class='fs-6'>{data.stats.countCommunities}</b>
+        <b class='fs-4'>{allCount}</b>
       </Badge>
       awesome communities
       </p>
@@ -28,13 +28,18 @@
 <JoinCommunityDialog 
   bind:open={open}
   joined={data.joined} 
-  all={data.allCommunities} />
+  all={data.joinables} />
 
-  <script>
-    import { Card, CardBody, Button, Badge } from "sveltestrap";
-    import JoinCommunityDialog from "@components/dialogs/JoinCommunityDialog.svelte";
-  
-    export let data;
-  
-    let open = false;
-  </script>
+<script>
+  import { Card, CardBody, Button, Badge } from "sveltestrap";
+  import JoinCommunityDialog from "@components/dialogs/JoinCommunityDialog.svelte";
+
+  export let data;
+
+  let open = false;
+
+  const 
+    joinablesCount = data.joinables.length,
+    allCount = data.allCommunities.length;
+
+</script>

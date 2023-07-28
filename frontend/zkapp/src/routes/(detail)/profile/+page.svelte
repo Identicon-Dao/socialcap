@@ -151,7 +151,7 @@
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-  import { apiClient, AppStatus } from "$lib/globals";
+  import { updateProfile } from "@apis/mutations";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
@@ -168,21 +168,8 @@
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
   async function saveProfile() {
-    try {
-      AppStatus.push("Updating profile ...");  
-      let rs = await apiClient.mutate("update_profile", data);
-      if (rs.error) throw new Error(rs.error.message);
-
-      AppStatus.push("Profile updated !");  
-      AppStatus.push("Now waiting for MINA transaction to complete");  
-      setTimeout(async () => {
-        AppStatus.done("MINA transaction #123456 completed !");  
-      }, 15000);
+    let updated = await updateProfile(data);
+    if (updated)
       history.back();
-    }
-    catch (err) {
-      AppStatus.error("There is some error with the data, please review !");
-      console.log(err);
-    }
   }
 </script>npm run de

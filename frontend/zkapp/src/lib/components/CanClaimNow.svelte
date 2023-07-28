@@ -10,7 +10,7 @@
           </p>
         </div>
         <div class="d-inline-block position-absolute bottom-0 end-0 rounded-4 border border-2 border-white">
-          <a href={`/credential/new/${uid}`} class="text-white text-decoration-none fs-sm">
+          <a href={`/credential/edit/${uid}?new`} class="text-white text-decoration-none fs-sm">
             <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
               Claim it now !
             </Button>

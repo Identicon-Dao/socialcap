@@ -20,23 +20,27 @@
         <h3 class="text-black d-flex justify-content-between align-items-center">
           <span>{data.plan.name}</span>
           <span class="fs-5">
-            <Badge color="success">ACTIVE</Badge>
+            <StateBadge state={data.claim.state} />
           </span>
         </h3>
 
-        <p class="fs-sm text-secondary lh-lg">
+        <p class="fs-sm text-secondary lh-lg text-start">
           {@html data.plan.description}
-          <br><b>{data.plan.community}</b>
+          <br><b>{data.community.name}</b>
         </p>
 
         <div class="d-flex justify-content-start">
           <p class="">
             <span class="fs-xs">Start Date</span>
-            <br/><b class="fs-sm">{data.plan.startsUTC}</b>
+            <br/><b class="fs-sm">{prettyDate(data.plan.startsUTC)}</b>
           </p>
           <p class="px-4">
             <span class="fs-xs">Ends Date</span>
-            <br/><b class="fs-sm">{data.plan.endsUTC}</b>
+            <br/><b class="fs-sm">{prettyDate(data.plan.endsUTC)}</b>
+          </p>
+          <p class="px-5">
+            <span class="fs-xs">Credential Fee</span>
+            <br/><b class="fs-sm">{data.plan.fee} MINA</b>
           </p>
         </div>
       </div>
@@ -44,7 +48,7 @@
     <hr>
   </Section>
 
-  <Section class="section-sm">
+  <Section class="section-sm text-start">
     <p class="py-2 hl-base">
       Please provide below the required evidence to sustain your claim. This 
       evidence will be deleted as soon as the claim has been approved, so no 
@@ -71,21 +75,21 @@
 
           {#if field.type === "text"}
             <Input 
-              bind:value={data.claim.evidence[index].value}
+              bind:value={data.claim.evidenceData[index].value}
               type="text" name={field.sid} id={field.sid} 
               class="rounded-1 p-2 mb-1"/>
           {/if}
 
           {#if field.type === "note"}
             <Input 
-              bind:value={data.claim.evidence[index].value}
+              bind:value={data.claim.evidenceData[index].value}
               type="textarea" name={field.sid} id={field.sid} 
               class="rounded-1 p-2 mb-1"/>
           {/if}
 
           {#if field.type === "file"}
             <Input 
-              bind:value={data.claim.evidence[index].value}
+              bind:value={data.claim.evidenceData[index].value}
               type="file" name={field.sid} id={field.sid} 
               class="rounded-1 px-2 mb-1"/>
           {/if}
@@ -98,11 +102,11 @@
       {/each}
 
       <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
-          <SubmitButton on:click={() => saveDraft()}
-            color="secondary" label="Save draft ..."/>
-          &nbsp;&nbsp;
-          <SubmitButton on:click={() => saveDraft()}
-            color="primary" label="Claim now !" />
+        <SubmitButton on:click={saveDraft}
+          color="secondary" label="Save draft ..."/>
+        &nbsp;&nbsp;
+        <SubmitButton on:click={() => saveDraftAndSubmit()}
+          color="primary" label="Claim now !" />
       </div>
     </Form>
   </Section>        
@@ -121,6 +125,10 @@
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
+  import StateBadge from "@components/StateBadge.svelte";
+  import { prettyDate } from "@utilities/datetime";
+  import { AppStatus } from "@utilities/app-status";
+  import { addClaim, updateClaim } from "@apis/mutations";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
@@ -136,7 +144,36 @@
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
+  function dataIsOk(data) {
+    if (!data.claim.alias.trim())
+      return false;
+
+    (data.claim.evidenceData || []).forEach((f) => {
+      if (f.required && f.value.trim().length ===0)
+        return false;
+    })
+    
+    return true;
+  }
+
   async function saveDraft() {
+    if (!dataIsOk(data)) {
+      AppStatus.error("Please fill all required fields !")
+      return;
+    }
+
+    let updated;
+    if (data.isNew) {
+      updated = await addClaim(data.claim);
+    }
+    else {
+      updated = await updateClaim(data.claim);
+    }
+    if (updated) 
+      history.back();
+  }
+
+  async function saveDraftAndSubmit() {
     alert(JSON.stringify(data.claim, null, 4));
   }
 </script>

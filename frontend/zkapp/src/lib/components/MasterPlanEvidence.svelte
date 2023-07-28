@@ -20,7 +20,7 @@
     {:else}
       <div 
         class="border border-secondary rounded-2 mx-2 mb-2 px-3 d-flex justify-content-between align-items-center">
-        <div class="lh-lg px-2 pt-3">
+        <div class="lh-lg px-2 pt-3 text-start">
           <b>{field.label}</b> ({field.sid}: {field.type})
           <p class="fs-sm lh-base text-secondary">{@html field.description}</p>
         </div>

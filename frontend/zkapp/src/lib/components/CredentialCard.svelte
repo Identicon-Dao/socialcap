@@ -1,5 +1,5 @@
 <div class="bg-light">
-  <Card class="rounded-1 shadow-sc mb-3 bg-white">
+  <Card class="rounded-1 border-sc mb-3 bg-white  ">
     <a href={`/credential/issued/${uid}`} class="text-decoration-none text-dark">
       <CardBody class="py-4 ps-4">
         <div class="d-flex justify-content-start align-items-center pt-0">

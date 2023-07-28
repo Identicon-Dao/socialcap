@@ -1,14 +1,11 @@
 
 import { error } from '@sveltejs/kit';
-import { 
-  getMasterPlan
-} from "@apis/clients";
+import { getPlan } from "@apis/queries";
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
     if (params.uid !== "") {
-        let obj = await getMasterPlan(params.uid);
-        obj.uid = params.uid;
+        let obj = await getPlan(params.uid);
         return JSON.parse(JSON.stringify(obj));
     }
 

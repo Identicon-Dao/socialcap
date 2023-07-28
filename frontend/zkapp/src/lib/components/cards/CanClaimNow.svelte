@@ -1,40 +1,54 @@
 <div class="w-100">
-  <Card class="border-1 shadow-sm">
+  <Card class="border-sc rounded-1">
     <CardHeader>
-      <div class="d-flex justify-content-start align-items-center position-relative">
-        <img src={data.image} width="110px" class="mt-0" alt="..." crossorigin>  
-        <div class="ps-4 pt-4 mt-2">
-          <p class="lh-base fs-xs text-secondary p-0 m-0">
-            <b class="text-secondary">{data.community}</b>
-          </p>
-          <h6 class="mt-1 mb-2 py-0 fw-bold">{data.name}</h6>
-          <p class="text-secondary fs-xs">{data.description}</p>
-        </div>
-        <div class="d-inline-block position-absolute top-0 end-0">
-          <p class="d-inline-block rounded-5 border border-1 pe-2 mt-2">
-            <Badge color="danger" pill class="fs-6">3</Badge>
-            <span class="fs-xs d-inline-block m-0 p-0 lh-1">Available</span>
-          </p>
+     
+      <div class="m-4 d-flex justify-content-start align-items-between position-relative">
+        <!-- <img src={data.image} width="110px" class="mt-0" alt="..." crossorigin>   -->
+        <img src={data.image} style="max-width:120px;" width="auto" class="img-thumbnail img-fluid mt-0" alt="..." crossorigin>  
+        
+        <div class="ps-4 container-fluid w-100 h-100">
+         
+          <div class="container-fluid text-start g-0 flex-column d-flex justify-content-between mb-3">  
+
+            <h5 class="text-black py-0 p-0 m-0">{data.name}</h5>
+            <p class="text-black lh-base fs-4 p-0 m-0">{data.community}</p>
+          </div>
+          <p class="text-black p-0 m-0">{data.description}</p>
+
         </div>
       </div>
     </CardHeader>
 
-    <CardBody class="my-0 pt-1 d-flex justify-content-between align-items-center">
-      <div class="d-flex justify-content-start">
-        <p class="">
-          <span class="fs-xs">Start Date</span>
-          <br/><b class="fs-sm">{data.startsUTC}</b>
-        </p>
-        <p class="px-4">
-          <span class="fs-xs">Ends Date</span>
-          <br/><b class="fs-sm">{data.endsUTC}</b>
-        </p>
+    <CardBody class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-start gap-4">
+
+        <div class="d-flex flex-column justify-start">
+          <small class="m-0 fs-6 color-dark text-uppercase letter-spacing-sc-1">Start Date</small>
+          <p class="fs-sm fw-bold">{prettyDate(data.startsUTC)}</p>
+        </div>
+
+        <div class="d-flex flex-column justify-start">
+          <small class="m-0 fs-6 color-dark text-uppercase letter-spacing-sc-1">Ends Date</small>
+          <p class="fs-sm fw-bold">{prettyDate(data.endsUTC)}</p>
+        </div>
+
       </div>
 
       <div class="d-inline-block rounded-4 border border-2 border-white">
-        <a href={`/credential/new/${uid}`} class="text-white text-decoration-none fs-sm">
-          <Button class="rounded-5 px-3 py-2 fs-sm" color="primary" size="sm">
-            Claim it now !
+
+        <!-- <div class="badge-sc">
+          <p class=" rounded-5 bg-white border border-1 border-gray pe-2">
+            <Badge color="danger" pill class="fs-5">4</Badge>
+            <span class="fs-xs d-inline-block m-0 p-0 lh-1">Available</span>
+          </p>
+        </div> -->
+
+
+        <span>Only <Badge color="danger"  pill class="opacity-85 fs-4">{data.available}</Badge> left</span>
+        &nbsp;
+        <a href={`/credential/edit/${data.uid}?isnew`} class="text-white text-decoration-none fs-sm">
+          <Button class="px-4 fs-2 py-2 rounded-3 bg-primary text-white border-0" color="primary" size="sm">
+            Claim it now
           </Button>
         </a>
       </div>
@@ -44,6 +58,7 @@
 
 <script>
   import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
+  import { prettyDate } from "@utilities/datetime";
 
-  export let uid, data={};
+  export let data={};
 </script>

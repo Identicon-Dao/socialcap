@@ -1,5 +1,5 @@
 <DetailPageHeader items={[
-  { href: '/', text: 'Home'},
+  { href: '/', text: 'Back'},
   { href: '', text: `Issued #${data.uid}`}
 ]}/>
 
@@ -11,8 +11,8 @@
     <p>We only arrive here if the user already has an approved cerdential.</p>
   </Sidenote> -->
 
-  <Section class="section-sm">
-    <div class="header text-center border border-1 rounded-3 p-4 shadow-lg">
+  <Section class="section-sm d-flex justify-content-center">
+    <div class="bg-white header text-center border border-1 rounded-3 p-4 border-sc shadow-sc w-50 text-center align-center d-flex flex-column">
       <div>
         <img src={data.image} height="240px" crossorigin/>
         <br/>
@@ -43,8 +43,10 @@
       <div class="mt-4">
         <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href="https://...">Link to transaction/metadata</a></p>
         <p class="mt-2 fs-xs">
-          <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" height="24px"/>
-          <Badge class="fs-sm" color="success">Verified</Badge> 
+          <!-- <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" height="24px"/> -->
+          <!-- <Badge class="fs-sm" color="success">Verified</Badge>  -->
+          <img src="/img/svg/verified.svg" height="20%" crossorigin/>
+
         </p>
       </div>
     </div>

@@ -1,12 +1,3 @@
-<!-- <Toast
-  autohide
-  body
-  header={status.message}
-  {isOpen}
-  on:close={() => (isOpen = false)}
->
- {status.code} {status.message}
-</Toast> -->
 {#if $appStatus.state === 3}
 <div style="position:fixed;top:120;left:0;right:0;z-index:100;background-color:azure;padding:0px 8px;">
   <Alert color="light" dismissible class="section-lg mx-auto border shadow rounded-3 px-4 py-3 mb-4 d-flex align-items-center" role="alert">
@@ -22,7 +13,7 @@
 </div>
 {/if}
 
-{#if  $appStatus.state > 0 && $appStatus <= 2}
+{#if  $appStatus.state > 0 && $appStatus.state < 3}
   <Alert color="light" dismissible class="mx-auto border shadow rounded-3 px-4 py-3 mb-4 d-flex align-items-center" role="alert">
     <h1 class="{stateColors[$appStatus.state]} me-3">
       <Icon name={stateIcons[$appStatus.state]} />

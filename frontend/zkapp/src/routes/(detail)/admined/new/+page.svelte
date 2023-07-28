@@ -4,7 +4,7 @@
   ]} />
 
 <DetailPageContent>
-  <Section class="section-sm pb-5">
+  <Section class="section-sm pb-5 text-start">
         <!-- <Alert color="nolight mb-4"> -->
       <div class="mt-4">
         <!-- <h4 class="alert-heading text-capitalize">
@@ -86,6 +86,8 @@
   import Section from '@components/Section.svelte';
   import DetailPageContent from '@components/DetailPageContent.svelte';
   import DetailPageHeader from '@components/DetailPageHeader.svelte';
+  import { AppStatus } from '@utilities/app-status';
+  import { updateCommunity } from '@apis/mutations';
 	
   let user = null;
 
@@ -95,8 +97,8 @@
     accepted: false
   }
 
-  onMount(() => {
-    user = getCurrentUser();
+  onMount(async () => {
+    user = await getCurrentUser();
   })
 
 	function cancelIt() { history.back() };
@@ -105,8 +107,16 @@
     return (data.name.trim() && data.description.trim() && data.accepted);
   }
 
-  function registerIt() {
-    if (!dataIsOk(data)) alert("All fields are required !")
-    alert("Ready to submit !")
+  async function registerIt() {
+    if (!dataIsOk(data)) {
+      AppStatus.error("All fields are required !")
+      return;
+    }
+    data.new = true; // indicate it is a new community !
+    data.adminUid = user.uid;
+    data.state = "INITIAL";
+    const updated = await updateCommunity(data);
+    if (updated) 
+      history.back();
   }
 </script>

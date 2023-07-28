@@ -2,6 +2,30 @@ import type { MasterPlan } from "./master-plan";
 
 export { Claim }; 
 
+export type { IClaim };
+
+type IClaim = {
+  uid               : string,
+  communityUid      : string,
+  applicantUid      : string,
+  planUid           : string,
+  state             : number,
+  accountId         : string,
+  alias             : string,
+  createdUTC        : string,
+  updatedUTC        : string,
+  votedUTC          : string,
+  issuedUTC         : string,
+  dueUTC            : string,
+  requiredVotes     : number,
+  requiredPositives : number,
+  positiveVotes     : number,
+  negativeVotes     : number,
+  ignoredVotes      : number,
+  evidenceData      : any[]
+};
+
+
 type ClaimState =  
   "STARTED" | "SUBMITED" | "ASSIGNED" | "VOTING" | 
   "CANCELED" | "APPROVED" | "REJECTED";

@@ -35,11 +35,13 @@
                   Become a validator
                 </Button>
                 &nbsp;
+                {#if user.uid === data.adminUid}
                 <a href={`/admined/${data.uid}`} class="text-dark text-decoration-none">
                   <Button outline color="dark" size="sm" class="rounded-5 px-3 py-1">
                     Admin it ...
                   </Button>
                 </a>
+                {/if}
               </p>
             {/if}
           </p>
@@ -64,7 +66,7 @@
     import { Badge, Modal, Button, Card, CardBody, CardHeader } from "sveltestrap";
     import FullviewButton from "./FullviewButton.svelte";
 
-    export let uid = 0, data, joined = false;
+    export let uid = 0, data, joined = false, user;
 
     let openJoinDlg = false;
     const toggleJoin = () => (openJoinDlg = !openJoinDlg);

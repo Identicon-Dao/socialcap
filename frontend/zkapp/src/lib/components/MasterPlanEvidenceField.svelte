@@ -41,7 +41,7 @@
     />
 
   {#if field.type !== "remark"}
-  <div class="row">
+  <div class="row text-start">
     <div class="col-6">
       <StdFormField 
         label="Required" 
