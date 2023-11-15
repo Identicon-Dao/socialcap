@@ -38,6 +38,8 @@ export const BatchScalarFieldEnumSchema = z.enum(['uid','sequence','type','metad
 
 export const StateScalarFieldEnumSchema = z.enum(['id','label']);
 
+export const TransactionQueueScalarFieldEnumSchema = z.enum(['uid','sequence','queue','type','data','state','receivedUTC','submitedUTC','doneUTC','retries','MinaTxId','MinaTxStatus']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -408,3 +410,32 @@ export type State = z.infer<typeof StateSchema>
 export const StatePartialSchema = StateSchema.partial()
 
 export type StatePartial = z.infer<typeof StatePartialSchema>
+
+/////////////////////////////////////////
+// TRANSACTION QUEUE SCHEMA
+/////////////////////////////////////////
+
+export const TransactionQueueSchema = z.object({
+  uid: z.string(),
+  sequence: z.number().int().nullish(),
+  queue: z.string(),
+  type: z.string(),
+  data: z.string(),
+  state: z.number().int().nullish(),
+  receivedUTC: z.coerce.date(),
+  submitedUTC: z.coerce.date().nullish(),
+  doneUTC: z.coerce.date().nullish(),
+  retries: z.number().int().nullish(),
+  MinaTxId: z.string().nullish(),
+  MinaTxStatus: z.string().nullish(),
+})
+
+export type TransactionQueue = z.infer<typeof TransactionQueueSchema>
+
+/////////////////////////////////////////
+// TRANSACTION QUEUE PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const TransactionQueuePartialSchema = TransactionQueueSchema.partial()
+
+export type TransactionQueuePartial = z.infer<typeof TransactionQueuePartialSchema>

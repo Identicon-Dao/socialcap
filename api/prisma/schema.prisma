@@ -257,23 +257,25 @@ model State {
   @@map("states")
 }
 
-model TxQueues {
-  // The transactions queue 
+// 
+// A transactions queue to order and dispatch transaction to MINA
+//
+model TransactionQueue {
   uid         String    @id @unique // an unique Uid for this Tx
-  sequence    Int       @default(autoincrement()) // order in which Tx was received, used by Sequencer
+  sequence    Int?       @default(autoincrement()) // order in which Tx was received, used by Sequencer
   queue       String    @default("") // name of the Tx queue, example: BATCH, PublicKey of , etc ... 
   type        String    @default("") // type VOTES_BATCH, ACCOUNT_CREATION, VOTE_ACTION
   data        String    @default("{}") // JSON string of this transaction data
-  state       Int       @default(9) // Processing state of the Tx 9: "WAITING", 10: "DONE", 11: "IGNORED" 13: "FAILED"
+  state       Int?       @default(9) // Processing state of the Tx 9: "WAITING", 10: "DONE", 11: "IGNORED" 13: "FAILED"
   receivedUTC DateTime  @default(now()) @map("received_utc") // the submitted time
-  submitedUTC DateTime  @map("submited_utc") // the submited to MINA time
+  submitedUTC DateTime?  @map("submited_utc") // the submited to MINA time
   doneUTC     DateTime? @map("done_utc") // the final "done with it" time (either on DONE, FAILED or IGNORED)
-  retries     Int       @default(0) // Number of retries of this transaction before declaring Failure
+  retries     Int?       @default(0) // Number of retries of this transaction before declaring Failure
 
   // MINA transaction info, either final success status or errors 
   // as returned by the Graphql endpoint used to check it
-  MinaTxId     String @default("") // 
-  MinaTxStatus String @default("") // 
+  MinaTxId     String? @default("") // 
+  MinaTxStatus String? @default("") // 
 
-  @@map("tx_queues")
+  @@map("transaction_queues")
 }

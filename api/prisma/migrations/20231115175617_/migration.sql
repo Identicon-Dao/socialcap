@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "transaction_queues" ALTER COLUMN "sequence" DROP NOT NULL,
+ALTER COLUMN "state" DROP NOT NULL,
+ALTER COLUMN "submited_utc" DROP NOT NULL,
+ALTER COLUMN "retries" DROP NOT NULL,
+ALTER COLUMN "MinaTxId" DROP NOT NULL,
+ALTER COLUMN "MinaTxStatus" DROP NOT NULL;
