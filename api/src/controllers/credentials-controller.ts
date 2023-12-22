@@ -21,10 +21,11 @@ export async function getCredential(params: any) {
 
 export async function getMyCredentials(params: any) {
   const userUid = params.user.uid;
+  const communityUid: string | undefined = params.communityUid;
 
   // all commnunity Uids where is a a member
   const credentials = await prisma.credential.findMany({
-    where: { applicantUid: userUid },
+    where: { applicantUid: userUid, uid: communityUid  },
     orderBy: { issuedUTC: 'desc' }
   })
   if (! credentials) 
