@@ -5,5 +5,7 @@ export async function handle({ event, resolve }) {
   const response = await resolve(event);
   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
   response.headers.set('Cross-Origin-Embedder-Policy', 'require-corp');
+
+  console.log("hook.server.js response.headers=", response.headers);
   return response;
 }

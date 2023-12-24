@@ -9,6 +9,12 @@ console.log("hook.client.js", API_CONFIG);
 let isAuthenticated = getCurrentSession();
 let user;
 
+
+if ('serviceWorker' in navigator) {
+  console.log('hook.clients.js: serviceWorker in navigator')
+}
+
+
 if (isAuthenticated) {
   let client = new CoreAPIClient(isAuthenticated);  
   setApiClient(client);

@@ -1,5 +1,5 @@
 // for generating a static site
-export const prerender = true;
+export const prerender = false;
 export const ssr = false;
 export const csr = true;
 
