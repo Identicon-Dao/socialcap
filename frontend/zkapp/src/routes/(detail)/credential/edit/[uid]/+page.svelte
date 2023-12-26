@@ -60,7 +60,7 @@
     <div class="m-0 p-0 mt-4">
       <Alert color="warning" class="p-3 fs-md lh-md">
         All submissions are due by <b>{prettyDate(data.plan.endsUTC)} 23:59 UTC </b>
-          {#if (data.plan.endsUTC)}({prettyDateFull(new Date(data.plan.endsUTC).toLocaleString())} at your local time){/if}
+          {#if (data.plan.endsUTC)}({prettyDateFull(data.plan.endsUTC)} at your local time){/if}
       </Alert>
     </div>
 
