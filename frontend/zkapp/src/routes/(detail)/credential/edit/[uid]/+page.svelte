@@ -81,6 +81,7 @@
 
     <div class="mt-2 mb-5 px-2 d-flex justify-content-center align-items-center">
       <SubmitButton 
+        disabled={!isSubmissionEnabled(submissionDateUtc)}
         on:click={() => saveDraft()}
         color="secondary" 
         label={savingDraft ? "Saving" : "Save draft ..."}
@@ -92,6 +93,11 @@
         color="primary" 
         label={submitingClaim ? "Submitting ..." : "Claim now !"}
       />
+      {#if !isSubmissionEnabled(submissionDateUtc)}
+      <Alert color="warning" class="p-3 fs-bold">
+        Submission is due for new claims!
+      </Alert>
+    {/if}
     </div>
   </Section>        
 
@@ -129,9 +135,7 @@
   const toggle = () => (openConfirmDlg = !openConfirmDlg);
   let savingDraft = false, submitingClaim = false;
 
-  // Due to an error during community creation, the MINA NAVIGATOR community ends date should be 2023-11-10 23:59 PST
-  const MINA_NAVIGATOR_COMMUNITY_UID = "70ed0f69af174c399b1958c01dc191c0";
-  const submissionDateUtc = data.plan.communityUid == MINA_NAVIGATOR_COMMUNITY_UID ? "2023-11-11T07:59:00.000Z" : data.plan.endsUTC;
+  const submissionDateUtc = data.plan.endsUTC;
 
   console.log("DATE", data.plan.endsUTC)
 
@@ -195,6 +199,7 @@
     const date = new Date(dateString);
     // Get the current local browser time
     const localDate = new Date(); 
+    console.log("dates", date, localDate)
     // Compare the two dates
     return localDate < date;
   }
