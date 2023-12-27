@@ -98,11 +98,15 @@
 
     claims = claims.map((claim) => {
       let values = JSON.parse(claim.evidenceData);
+      if (typeof values === 'string') 
+        values = JSON.parse(values);
+
       const texts = (values || []).map((t) => "["+t.value+"]").join("");
       claim.searchable = (texts
         +claim.applicant.fullName
         +ALL_STATES[claim.state])
         .toUpperCase();
+
       claim.evidenceData = JSON.parse(claim.evidenceData);
       return claim;
     })
