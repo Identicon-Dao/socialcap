@@ -79,6 +79,8 @@
       </Alert>
     {/if}
 
+    <hr>
+
     <div class="mt-2 mb-5 px-2 d-flex justify-content-center align-items-center">
       <SubmitButton 
         disabled={!isSubmissionEnabled(submissionDateUtc)}
@@ -87,17 +89,19 @@
         label={savingDraft ? "Saving" : "Save draft ..."}
       />
       &nbsp;&nbsp;
+
       <SubmitButton 
         disabled={!dataIsOk(data.claim.evidenceData) || !isSubmissionEnabled(submissionDateUtc)}
         on:click={() => saveDraftAndSubmit()}
         color="primary" 
         label={submitingClaim ? "Submitting ..." : "Claim now !"}
       />
+
       {#if !isSubmissionEnabled(submissionDateUtc)}
-      <Alert color="warning" class="p-3 fs-bold">
-        Submission is due for new claims!
-      </Alert>
-    {/if}
+        <Alert color="warning" class="p-3 fs-bold">
+          Submission is due for new claims!
+        </Alert>
+      {/if}
     </div>
   </Section>        
 
@@ -167,18 +171,30 @@
   /**
    * This just saves the claim draft to the server and goes to previous page.
    */
-  async function saveDraft() {
+  async function saveDraft(mustSubmit) {
     savingDraft = true;
     let updated = await updateTheDraft();
     savingDraft = false;
-    if (updated) {
+
+    if (!updated) {
+      alert("There has been some problem. Please retry again later.");
+      return null; // saving the draft failed, we can not continue ...
+    }
+
+    if (updated && mustSubmit) {
+      try {
+        updated.evidenceData = JSON.parse(updated.evidenceData)
+      }
+      catch (err) {
+        console.log("Error parsing evidence data ", err)
+      }
+      return updated;
+    }
+
+    if (updated && !mustSubmit) {
       alert("Your draft has been saved !");
       history.back();
     } 
-    else {
-      alert("There has been some problem. Please retry again later.");
-      return ; // saving the draft failed, we can not continue ...
-    }
   }
 
   /**
@@ -189,8 +205,8 @@
    * The new Claim deployment is payed by the SocialcapFeePayer account.
    */
   async function saveDraftAndSubmit() {
+    data.claim.new = data.isNew;
 
-    data.claim.new = true;
     // wait for confirmation  
     openConfirmDlg = true;
   }
@@ -219,10 +235,20 @@
   }
 
   async function submitIt() {
-    // was confirmed, do it !
+    // if it is not an already saved draft
+    // we first save it as a Draft 
+    let savedDraft = null;
+    savedDraft = await saveDraft(true);
+    if (!savedDraft) {
+      alert("There has been some problem. Please retry again later.");
+      return;
+    }
+
+    // draft was saved, now submit it !
     submitingClaim = true;
+    data.claim.new = false;
     let submited = await submitClaim({
-      claim: data.claim,
+      claim: savedDraft,
       extras: {
         transaction: "",
         addToQueue: true,
