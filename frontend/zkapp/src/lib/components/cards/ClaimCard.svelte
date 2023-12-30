@@ -1,7 +1,7 @@
 <div class="w-100 px-4">
   <Card class="border-0 no-border-bottom" nostyle="border:1px solid red !important;">
     <a class="text-decoration-none text-dark"
-      href="#"     
+      href={"#"}     
       on:click={() => goto(nextUrl)}
       >
       <CardBody class="ps-4">
