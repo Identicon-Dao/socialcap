@@ -3,6 +3,6 @@
  */
 export const API_CONFIG = {
   protocol: "https",
-  host: "api.socialcap.app",
+  host: "localhost",
   port: 443,
 };

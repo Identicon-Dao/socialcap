@@ -7,7 +7,8 @@ export {
   getTask, getMyTasks,
   getCredential, getMyCredentials,
   getNullifier,
-  getMyHome
+  getMyHome,
+  getVotingStatus
 }
 
 
@@ -100,5 +101,11 @@ async function getNullifier(params: any): Promise<any> {
 
 async function getMyHome(params: any): Promise<any[]> {
   const rs = await apiClient.query("get_my_home", params);
+  return (rs.error) ? rs : rs.data ;
+}
+
+async function getVotingStatus(params:any): Promise<any> {
+  const rs = await apiClient.query("get_voting_status", params);
+  console.log("rs", rs)
   return (rs.error) ? rs : rs.data ;
 }

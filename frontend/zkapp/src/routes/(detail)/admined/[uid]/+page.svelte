@@ -129,6 +129,9 @@
       <TabPane tabId="claims" tab="Claims" class="py-4 px-2">
         <ClaimsList communityUid={data.uid} claims={data.claims} />
       </TabPane>
+      <TabPane tabId="voting" tab="Voting" class="py-4 px-2">
+        <Voting communityUid={data.uid} state={data.state} votingStatus={data.votingStatus} judges={data.validators} adminUid={data.adminUid} xadmins={data.xadmins} plans={data.plans} />
+      </TabPane>
     </TabContent>
 
     <div class="text-center mt-4 mb-5">
@@ -157,6 +160,7 @@
   import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
   import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
   import ClaimsList from "./ClaimsList.svelte";
+  import Voting from "./Voting.svelte"
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
   import { AppStatus } from "@utilities/app-status";
