@@ -201,7 +201,7 @@ export async function prepareCommunityPlanClaimsDownload(
   try {
     let members = await (new CommunityMembers()).build(uid);
  
-    let claims = await getCommunityClaimsByPlan(planUid, members, [DRAFT,CLAIMED]) || [];
+    let claims = await getCommunityClaimsByPlan(uid, planUid, members, [DRAFT,CLAIMED]) || [];
 
     let content = "";
 

@@ -29,21 +29,22 @@ export async function getCommunityClaims(
 }
 
 export async function getCommunityClaimsByPlan(
+  uid: string,
   planUid: string,
   members: CommunityMembers,
   states?: number[]
 ) {
   states = states || [DRAFT,CLAIMED,IGNORED,VOTING,UNPAID,REJECTED,APPROVED];
-  console.log("getting communiry claims by plan", planUid)
   // first the bare claims for this community (ALL of them)
   let claims = await prisma.claim.findMany({
     where: { AND: [
-      { planUid: planUid },
+      { communityUid: uid },
+      { planUid: {equals: planUid } },
       { state: { in: states }}
     ]},
     orderBy: { applicantUid: 'asc' }
   }) as any;
-console.log("claims", claims)
+console.log("claims count", claims.length)
   // add the applicant info to every claim
   claims = (claims || []).map((claim: any) => {
     claim.applicant = members.findByUid(claim.applicantUid);
