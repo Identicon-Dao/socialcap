@@ -15,7 +15,7 @@ COPY ./ /api
 
 RUN cd /api
 RUN npm i 
-RUN npm i @socialcap/contracts
+RUN npm i @socialcap/contracts@0.1.28
 RUN npx prisma generate
 #RUN npx prisma migrate dev
 
