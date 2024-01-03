@@ -28,6 +28,31 @@ export async function getCommunityClaims(
   return claims;
 }
 
+export async function getCommunityClaimsByPlan(
+  uid: string,
+  planUid: string,
+  members: CommunityMembers,
+  states?: number[]
+) {
+  states = states || [DRAFT,CLAIMED,IGNORED,VOTING,UNPAID,REJECTED,APPROVED];
+  // first the bare claims for this community (ALL of them)
+  let claims = await prisma.claim.findMany({
+    where: { AND: [
+      { communityUid: uid },
+      { planUid: {equals: planUid } },
+      { state: { in: states }}
+    ]},
+    orderBy: { applicantUid: 'asc' }
+  }) as any;
+console.log("claims count", claims.length)
+  // add the applicant info to every claim
+  claims = (claims || []).map((claim: any) => {
+    claim.applicant = members.findByUid(claim.applicantUid);
+    return claim;
+  })
+
+  return claims;
+}
 
 export async function getCommunityCounters(uid: string) {
   const nMembers = await prisma.members.count({
