@@ -1,20 +1,30 @@
+<div class="d-flex align-items-left p-3">
+  <MasterPlanSelector 
+  bind:value={planSelected} label="Master Plan" options={plans.map(p => ({ value: p.uid, text: p.name}))} placeholder="Select a Master Plan" />
+</div>
+{#if (planSelected)}
   <Section class="section-lg mt-4">
-
     <Steps {steps} current={currentStep}/>
   </Section>
   <Section class="section-lg mt-4">
     <!-- {#if (isVotingEnabled())} -->
-      <!-- {#if (votingStatus === "Active")} -->
-        {#each judges as p}
-        <MemberItem 
-          p={p} 
-          admin={adminUid}
-          xadmins={xadmins}/>
+  
+      {#each judges as p}
+      <MemberItem 
+        p={p} 
+        admin={adminUid}
+        xadmins={xadmins}/>
       {/each}
-      <!-- {/if} -->
-    <!-- {/if} -->
+      {#if (isMinValidatorsReached())}
+      <Button 
+        on:click={() => createValidatorTasks()}
+        color="primary" size="" class="me-4">
+        Create Validators Tasks 
+      </Button>
+     {/if}
    
   </Section>
+  {/if}
 
   <script>
     import { onMount } from "svelte";
@@ -27,14 +37,15 @@
     import StdFormField from "@components/forms/StdFormField.svelte";
     import { AppStatus } from "@utilities/app-status";
     import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-    import { ALL_STATES } from "@models/states";
-    import { updatePlan } from "@apis/mutations";
+    import { ALL_STATES, VOTING, DONE } from "@models/states";
     import { Steps } from 'svelte-steps';
     import MemberItem from "./MemberItem.svelte";
-    export let communityUid, state, startsUTC, endsUTC, votingStatus, judges, adminUid, xadmins, plans;
-
+    import MasterPlanSelector from "@components/MasterPlanSelector.svelte";
+    export let communityUid, state, startsUTC, endsUTC, judges, adminUid, xadmins, plans;
+    console.log("state");
+    let planSelected = undefined;
     let steps = [
-        { text: 'Voting Start', icon: Icon, iconProps: {name: "envelope-paper  "} },
+        { text: 'Voting Start', icon: Icon, iconProps: {name: "envelope-paper"} },
         { text: 'Confirm Judges', icon: Icon, iconProps: {name: "people"}},
         { text: 'Voting End', icon: Icon, iconProps: {name: "envelope-slash "} },
         { text: 'Votes Tallying', icon: Icon, iconProps: {name: "box-seam "} }
@@ -42,15 +53,19 @@
     let currentStep = 0;
     
     function isVotingEnabled() {
-      const dateString = endsUTC;
-      const date = new Date(dateString);
-      // Get the current local browser time
-      const localDate = new Date(); 
-      console.log("dates", date, localDate)
-      // Compare the two dates
-      return localDate > date;
+      return state === VOTING;
     }
-  
 
+    function isVotingFinished() {
+      return state === DONE
+    }
+    
+    function isMinValidatorsReached() {
+      return true;
+    }
+
+    function createValidatorTasks() {
+      // TodDo implement
+    }
   
   </script>
