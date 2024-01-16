@@ -103,7 +103,7 @@
 
       const texts = (values || []).map((t) => "["+t.value+"]").join("");
       claim.searchable = (texts
-        +claim.applicant.fullName
+        +claim.applicant ? claim.applicant.fullName : ""
         +ALL_STATES[claim.state])
         .toUpperCase();
 
