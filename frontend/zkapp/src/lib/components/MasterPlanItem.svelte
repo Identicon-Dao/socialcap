@@ -14,7 +14,7 @@
     </a>
     <Badge pill color={stateColors[plan.state]}>{ALL_STATES[plan.state] || ""}</Badge>
   </div>
-  <span class="col-4 fs-xs">
+  <span class="col-4 fs-xs">  
     <div class="row">
       <span class="col-4">Created<br>{plan.createdUTC.slice(0,10)}</span>   
       <span class="col-4">Starts<br/>{(plan.startsUTC || "---").slice(0,10)}</span>   

@@ -116,7 +116,7 @@
               type="textarea"
               rows={3}
               class="w-100"
-              bind:value={data.xadmins}
+              bind:value={data.xadminss}
              />
           </div>
         {:else}
@@ -130,7 +130,14 @@
         <ClaimsList communityUid={data.uid} claims={data.claims} />
       </TabPane>
       <TabPane tabId="voting" tab="Voting" class="py-4 px-2">
-        <Voting communityUid={data.uid} state={data.state} votingStatus={data.votingStatus} judges={data.validators} adminUid={data.adminUid} xadmins={data.xadmins} plans={data.plans} />
+        <Voting communityUid={data.uid}
+            state={data.state}
+            votingStatus={data.votingStatus}
+            judges={data.validators}
+            adminUid={data.adminUid}
+            xadmins={data.xadmins}
+            plans={data.plans}
+            members={data.members} />
       </TabPane>
     </TabContent>
 
