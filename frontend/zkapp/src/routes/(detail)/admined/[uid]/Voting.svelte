@@ -52,10 +52,19 @@
       <Alert color="info">     
         Voting in progress
       </Alert>
+      <Button 
+          on:click={() => stopVoting()}
+          color="primary" size="" class="me-4">
+          Stop Voting
+      </Button> 
      {/if}
 
      {#if (currentStep === 3)}
-      
+     <Button 
+        on:click={() => startTallying()}
+        color="primary" size="" class="me-4">
+        Start Tallying
+    </Button> 
      {/if}
    
   </Section>

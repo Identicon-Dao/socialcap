@@ -14,7 +14,10 @@ export const
   IGNORED = 11, // will not do this 
   UNPAID = 12, // payment transaction failed and needs repayment !
   REJECTED = 19,   
-  APPROVED = 20
+  APPROVED = 20,
+  FINISHED = 30,
+  TALLYING = 31,
+  ISSUING = 32
 ;
 
 export const ALL_STATES = {
@@ -31,7 +34,9 @@ export const ALL_STATES = {
   11: "IN REVISION", // will not do this 
   12: "UNPAID", // payment transaction failed, reamins unpaid
   19: "REJECTED",   
-  20: "APPROVED"
+  20: "APPROVED",
+  30: "TALLYING",
+  31: "ISSUING"
 }
 
 const COMMUNITY_STATES = [1,2,3,19,20]; // DRAFT,CANCELED,REVISION,REJECTED.APPROVED
@@ -45,3 +50,5 @@ const ELECTOR_STATES = [0,2,7,8,11]; // NONE,CANCELED,ASSIGNED,DONE,IGNORED
 const PLAN_STATES = [1,2,9,8,10]; // DRAFT,CANCELED,WAITING,ACTIVE,DONE
 
 const TASK_STATES = [2,7,10,11]; // CANCELED,ASSIGNED,DONE,IGNORED
+
+const VOTING_STATES = [0, 8, 6, 30, 31, 10]; // NOME, ACTIVE, VOTING, TALLYING, ISSUING, DONE
