@@ -127,7 +127,7 @@
       </TabPane>
 
       <TabPane tabId="claims" tab="Claims" class="py-4 px-2">
-        <ClaimsList communityUid={data.uid} claims={data.claims} />
+        <ClaimsList communityUid={data.uid} claims={data.claims} plans={data.plans} />
       </TabPane>
       <TabPane tabId="voting" tab="Voting" class="py-4 px-2">
         <Voting communityUid={data.uid}

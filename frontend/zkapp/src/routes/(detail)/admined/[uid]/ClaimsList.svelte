@@ -1,4 +1,9 @@
 <div>
+  <div class="d-flex align-items-left p-3">
+      <MasterPlanSelector 
+      bind:value={planSelected} label="Master Plan" options={plans.map(p => ({ value: p.uid, text: p.name}))} placeholder="Select a Master Plan" />
+  </div>
+  {#if (planSelected)}
   <div class="d-flex justify-content-between align-items-center p-3">
     <div class="col-2 me-2">
       <Input 
@@ -13,19 +18,21 @@
       <Dropdown autoClose="inside" size="sm">
         <DropdownToggle class="--bg-light" caret>Columns</DropdownToggle>
         <DropdownMenu>
-          {#each fields as field}
-            {#if !field.isRemark}
-              <DropdownItem>
-                <Input 
-                  type="checkbox" 
-                  label={field.label}
-                  bind:checked={field.selected}
-                />
-              </DropdownItem>  
-            {/if}
-          {/each}
+          {#if ((fields || []).length >0)}
+            {#each fields as field}
+              {#if !field.isRemark}
+                <DropdownItem>
+                  <Input 
+                    type="checkbox" 
+                    label={field.label}
+                    bind:checked={field.selected}
+                  />
+                </DropdownItem>  
+              {/if}
+            {/each}
+          {/if}
         </DropdownMenu>
-      </Dropdown>    
+      </Dropdown> 
       &nbsp;
 
       <!-- <Dropdown autoClose="inside" size="sm">
@@ -53,7 +60,6 @@
       </Button>
     </div>
   </div>
-  
   <table class="table table-striped table-hover">
     <thead>
       <ClaimItemHeader fields={fields} columns={columns} />
@@ -64,50 +70,52 @@
       {/each}
     </tbody>
   </table>
+  {/if}
 </div>
 
 <script>
   import { Input, Dropdown, DropdownMenu, DropdownItem, DropdownToggle, Button } from "sveltestrap";
+  import MasterPlanSelector from "@components/MasterPlanSelector.svelte";
   import { Icon } from 'sveltestrap';
   import ClaimItem from "./ClaimItem.svelte";
   import ClaimItemHeader from "./ClaimItemHeader.svelte";
   import { ALL_STATES } from "@models/states";
   import { getAPIConfig } from "$lib/globals"
 
-  export let communityUid, claims = [];
+  export let communityUid, claims= [], plans = [];
 
   let 
     columns = [],
     contains = "",
-    orderBy = [];
+    orderBy = [],
+    planSelected = plans.length > 0 ? plans[0].uid : undefined;
     
-  let fields = prepareColumnsSelector(claims);
 
-  let searchableClaims = makeSearchable(claims);
-
-  let downloadLink = setDownloadLink(communityUid);
-
+  $: planClaims = claims.filter(c => c.planUid === planSelected)
+  $: fields = prepareColumnsSelector(planClaims);
+  $: searchableClaims = makeSearchable(planClaims);
+  $: downloadLink = setDownloadLink(planSelected);
   $: columns = filterSelected(fields);
-
   $: filteredClaims = filterClaims(searchableClaims, contains);
-
 
   function makeSearchable(claims) {
     if ((claims || []).length === 0) 
       return;
 
     claims = claims.map((claim) => {
-      let values = JSON.parse(claim.evidenceData);
+      let values = Array.isArray(claim.evidenceData) ? claim.evidenceData : JSON.parse(claim.evidenceData);
       if (typeof values === 'string') 
         values = JSON.parse(values);
-
+      if (values.length === 0)
+        return claim;
       const texts = (values || []).map((t) => "["+t.value+"]").join("");
       claim.searchable = (texts
-        +claim.applicant.fullName
+        +claim.applicant ? claim.applicant.fullName : ""
         +ALL_STATES[claim.state])
         .toUpperCase();
 
-      claim.evidenceData = JSON.parse(claim.evidenceData);
+      claim.evidenceData = Array.isArray(claim.evidenceData) ? claim.evidenceData: JSON.parse(claim.evidenceData);
+    
       return claim;
     })
 
@@ -117,9 +125,10 @@
 
   function prepareColumnsSelector(claims) {
     if ((claims || []).length === 0) 
-      return;
-
-    const evidenceData = JSON.parse(claims[0].evidenceData);
+      return [];
+    const evidenceData = Array.isArray(claims[0].evidenceData) ? claims[0].evidenceData : JSON.parse(claims[0].evidenceData);
+    if (evidenceData.length === 0) 
+      return [];
     return evidenceData
       .map((t, j) => {
         return {
@@ -133,6 +142,9 @@
 
 
   function filterSelected(fields) {
+    if ((fields || []).length === 0) 
+      return;
+
     let cols = fields.filter((t) => t.selected).map((t) => t.index);
     return cols;
   }
@@ -141,25 +153,22 @@
   function filterClaims(claims, word) {
     if (!contains.trim().length)
       return claims;
-
     word = word.toUpperCase();
     let filtered = [];
     claims.forEach((claim) => {
       let ok = claim.searchable.includes(word);
       if (ok) filtered.push(claim);
     });
-
     return filtered;
   }
 
-
-  function setDownloadLink(communityUid) {
+  function setDownloadLink(planSelected) {
     const api = getAPIConfig();
     return {
       href: (
-        `${api.baseUrl}/download/community_claims?uid=${communityUid}`
+        `${api.baseUrl}/download/community_claims?uid=${communityUid}&planUid=${planSelected}`
       ),
-      fileName: "claims.txt"
+      fileName: "claims.csv"
     }
     // const hiddenElement = document.createElement('a');
     // hiddenElement.href = 'data:attachment/text,' + encodeURI(content);
