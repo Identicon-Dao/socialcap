@@ -6,7 +6,7 @@
         bind:state={claim.state} 
       />
     </span>
-    <b>{claim.applicant.fullName}</b>
+    <b>{claim.applicant ? claim.applicant.fullName : "Unknown"}</b>
     <br/>
     
     <a 
