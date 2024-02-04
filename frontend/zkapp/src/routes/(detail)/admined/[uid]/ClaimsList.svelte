@@ -21,13 +21,14 @@
           {#if ((fields || []).length >0)}
             {#each fields as field}
               {#if !field.isRemark}
-                <DropdownItem>
-                  <Input 
-                    type="checkbox" 
-                    label={field.label}
-                    bind:checked={field.selected}
-                  />
-                </DropdownItem>  
+                  <DropdownItem>
+                    <Input 
+                      type="checkbox" 
+                      label={field.label}
+                      checked={field.selected}
+                      on:change={() => field.selected = !field.selected}
+                    />
+                  </DropdownItem>  
               {/if}
             {/each}
           {/if}
@@ -110,7 +111,7 @@
         return claim;
       const texts = (values || []).map((t) => "["+t.value+"]").join("");
       claim.searchable = (texts
-        +claim.applicant ? claim.applicant.fullName : ""
+        +(claim.applicant ? claim.applicant.fullName : "")
         +ALL_STATES[claim.state])
         .toUpperCase();
 
@@ -146,6 +147,7 @@
       return;
 
     let cols = fields.filter((t) => t.selected).map((t) => t.index);
+    console.log("cols", cols)
     return cols;
   }
 
