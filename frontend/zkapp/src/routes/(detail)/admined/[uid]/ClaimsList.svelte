@@ -168,7 +168,7 @@
     const api = getAPIConfig();
     return {
       href: (
-        `${api.baseUrl}/download/community_claims?uid=${communityUid}&planUid=${planSelected}`
+        `${api.baseUrl}/download/plan_claims?uid=${communityUid}&planUid=${planSelected}`
       ),
       fileName: "claims.csv"
     }

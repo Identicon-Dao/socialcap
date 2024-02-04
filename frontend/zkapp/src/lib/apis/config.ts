@@ -1,9 +1,8 @@
 /**
- * API Config for Dev local env
+ * API Config for Production env
  */
 export const API_CONFIG = {
-  protocol: "http",
-  host: "localhost",
-  port: 3080,
-}
-
+  protocol: "https",
+  host: "api.socialcap.app",
+  port: 443,
+};
