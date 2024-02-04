@@ -169,7 +169,7 @@ export async function prepareCommunityClaimsDownload(
       if (claim.state === 4) stateDescr = "CLAIMED"; 
 
       let values = [
-        `"${claim.applicant.fullName}"`,
+        `"${claim.applicant.fullName || ''}"`,
         `"${claim.uid}"`,
         `"${stateDescr}"`
       ];
@@ -230,7 +230,7 @@ export async function prepareCommunityPlanClaimsDownload(
       if (claim.state === 4) stateDescr = "CLAIMED"; 
 
       let values = [
-        `"${claim.applicant.fullName}"`,
+        `"${claim.applicant.fullName || ''}"`,
         `"${claim.uid}"`,
         `"${stateDescr}"`
       ];
