@@ -131,8 +131,6 @@
       </TabPane>
       <TabPane tabId="voting" tab="Voting" class="py-4 px-2">
         <Voting communityUid={data.uid}
-            state={data.state}
-            votingStatus={data.votingStatus}
             judges={data.validators}
             adminUid={data.adminUid}
             xadmins={data.xadmins}

@@ -1,8 +1,8 @@
 <div class="d-flex align-items-left p-3">
   <MasterPlanSelector 
-  bind:value={planSelected} label="Master Plan" options={plans.map(p => ({ value: p.uid, text: p.name}))} placeholder="Select a Master Plan" />
+  bind:value={selectedPlanUid} label="Master Plan" options={plans.map(p => ({ value: p.uid, text: p.name}))} placeholder="Select a Master Plan" />
 </div>
-{#if (planSelected)}
+{#if (selectedPlanUid)}
   <Section class="section-lg mt-4">
     <Steps {steps} current={currentStep} clickable={false}/>
   </Section>
@@ -81,26 +81,35 @@
     import StdFormField from "@components/forms/StdFormField.svelte";
     import { AppStatus } from "@utilities/app-status";
     import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-    import { ALL_STATES, VOTING, FINISHED,  DONE } from "@models/states";
+    import { ALL_STATES, NONE, VOTING, FINISHED,  DONE, CLAIMED } from "@models/states";
     import { Steps } from 'svelte-steps';
     import MemberItem from "./MemberItem.svelte";
     import MasterPlanSelector from "@components/MasterPlanSelector.svelte";
-    export let communityUid, state, startsUTC, endsUTC, judges, adminUid, xadmins, plans, members;
-    console.log("state");
-    let planSelected = undefined;
+    import { enableVoting, reassignElectors, closeVoting, reopenVoting, startTally, closeTally, issueCredentials } from "@apis/mutations";
+
+    export let communityUid, startsUTC, endsUTC, judges, adminUid, xadmins, plans, members;
+    let selectedPlanUid = undefined;
     let steps = [
         { text: 'Voting Start', icon: Icon, iconProps: {name: "envelope-plus-fill"} },
         { text: 'Confirm Judges', icon: Icon, iconProps: {name: "people-fill"}},
         { text: 'Voting', icon: Icon, iconProps: {name: "envelope-paper-fill"}},
         { text: 'Voting End', icon: Icon, iconProps: {name: "envelope-slash-fill"} },
-        { text: 'Votes Tallying', icon: Icon, iconProps: {name: "box-seam-fill"} }
+        { text: 'Votes Tallying', icon: Icon, iconProps: {name: "box-seam-fill"} },
+        { text: 'Issue Credentials', icon: Icon, iconProps: {name: "box-seam-fill"} }
     ];
-    let currentStep = getCurrentStep();
-    let votingState = 0;
+    // let currentStep = getCurrentStep();
+    $: currentStep = getCurrentStep(selectedPlanUid);
+    $: state = getPlanState(selectedPlanUid)
 
-    function startVoting() {
-      // Todo: manage states (update voting status api)
+    async function startVoting() {
+      console.log("starting vote")
+      let uPlan = await enableVoting(selectedPlanUid);
+      console.log("started")
       currentStep = 1;
+    }
+
+    async function createValidatorTasks() {
+      let uPlan = await reassignElectors(selectedPlanUid)
     }
     
     function isVotingEnabled() {
@@ -116,15 +125,14 @@
       return false;
     }
 
-    function createValidatorTasks() {
-      // TodDo implement - call to api
-    }
-
-    function getCurrentStep() {
-      // Todo move to api
-
-      if (!isVotingEnabled()) 
+    function getCurrentStep(selectedPlanUid) {
+      if (!selectedPlanUid)
         return 0;
+      let state = plans.filter(p => p.uid == selectedPlanUid)[0].state;
+      console.log("state", state);
+
+      if (state === CLAIMED)
+        return 0; // voting start
       if (currentStep === 1) {
         if (isMinValidatorsReached()) 
           return 2; // Voting 
@@ -132,6 +140,11 @@
       }
       if (isVotingFinished())
         return 3; 
+    }
+
+    function getPlanState(selectedPlanUid) {
+      console.log("plans",plans)
+      return selectedPlanUid ? plans.filter(p => p.uid === selectedPlanUid).state : NONE
     }
   
   </script>
