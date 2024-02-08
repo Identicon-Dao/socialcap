@@ -65,6 +65,26 @@
         color="primary" size="" class="me-4">
         Start Tallying
     </Button> 
+      <Button 
+        on:click={() => reopenVoting()}
+        color="primary" size="" class="me-4">
+        Reopen Voting
+      </Button> 
+     {/if}
+
+     {#if (currentStep === 4)}
+     <Button 
+        on:click={() => stopTallying()}
+        color="primary" size="" class="me-4">
+        Stop Tallying
+    </Button> 
+     {/if}
+     {#if (currentStep === 5)}
+     <Button 
+        on:click={() => runIssueCredentials()}
+        color="primary" size="" class="me-4">
+        Issue Credentials
+    </Button> 
      {/if}
    
   </Section>
@@ -95,7 +115,7 @@
         { text: 'Voting', icon: Icon, iconProps: {name: "envelope-paper-fill"}},
         { text: 'Voting End', icon: Icon, iconProps: {name: "envelope-slash-fill"} },
         { text: 'Votes Tallying', icon: Icon, iconProps: {name: "box-seam-fill"} },
-        { text: 'Issue Credentials', icon: Icon, iconProps: {name: "box-seam-fill"} }
+        { text: 'Issue Credentials', icon: Icon, iconProps: {name: "person-circle"} }
     ];
     // let currentStep = getCurrentStep();
     $: currentStep = getCurrentStep(selectedPlanUid);
@@ -110,6 +130,22 @@
 
     async function createValidatorTasks() {
       let uPlan = await reassignElectors(selectedPlanUid)
+    }
+
+    async function stopVoting() {
+      let uPlan = await closeVoting(selectedPlanUid);
+    }
+
+    async function startTallying() {
+      let uPlan = await startTally(selectedPlanUid);
+    }
+
+    async function stopTallying() {
+      let uPlan = await closeTally(selectedPlanUid);
+    }
+
+    async function runIssueCredentials() {
+      let uPlan = await issueCredentials(selectedPlanUid)
     }
     
     function isVotingEnabled() {
@@ -140,6 +176,8 @@
       }
       if (isVotingFinished())
         return 3; 
+      if (state === DONE)
+        return 5; // issue credentials
     }
 
     function getPlanState(selectedPlanUid) {
