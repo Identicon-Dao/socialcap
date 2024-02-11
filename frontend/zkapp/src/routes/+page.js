@@ -18,7 +18,7 @@ export async function load({ params, route, url }) {
 
     let isAuthenticated = getCurrentSession();
     let user;
-    let rs;
+    let rs = {};
 
     if (!isAuthenticated) {
       let client = new CoreAPIClient(API_CONFIG);  
@@ -32,16 +32,18 @@ export async function load({ params, route, url }) {
       user = await getCurrentUser();
       //console.log("getmyHome= ", JSON.stringify(home, null, 4));
       rs =  await getMyHome();
-    }  
 
-    rs.user = user;
-    rs.isAuthenticated = isAuthenticated;
-    rs.assigned = (rs.assigned || []).filter((t) => t.state=== ASSIGNED),
-    rs.stats = aStats;
-    // order claim by createdUTC desc
-    rs.claimed = rs.claimed.sort((a, b) => new Date(b.createdUTC) - new Date(a.createdUTC) );
-    rs.claimables = (rs.claimables || []).filter((t) => t.state === ACTIVE);
-    console.log("main page data=", rs);
+      if (rs) {
+        rs.user = user;
+        rs.isAuthenticated = isAuthenticated;
+        rs.assigned = (rs.assigned || []).filter((t) => t.state=== ASSIGNED),
+        rs.stats = aStats;
+        // order claim by createdUTC desc
+        rs.claimed = rs.claimed.sort((a, b) => new Date(b.createdUTC) - new Date(a.createdUTC) );
+        rs.claimables = (rs.claimables || []).filter((t) => t.state === ACTIVE);
+        console.log("main page data=", rs);
+      }
+    }  
 
     return rs;
 }
