@@ -1,9 +1,9 @@
 {
-  "name": "zkapp-sveltekit-ui",
+  "name": "socialcap-zkapp-ui",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "zkApp UI example using SvelteKit",
+  "description": "Social zkApp",
   "author": "Identicon DAO",
   "license": "ISC",
   "scripts": {
