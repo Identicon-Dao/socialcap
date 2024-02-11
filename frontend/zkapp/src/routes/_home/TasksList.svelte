@@ -59,7 +59,8 @@
     if ((tasks || []).length === 0) 
       return;
 
-    const evidenceData = JSON.parse(tasks[0].claim.evidenceData);
+    const firstParse = JSON.parse(tasks[0].claim.evidenceData);
+    let evidenceData = (typeof(firstParse) === 'string') ? JSON.parse(firstParse) : firstParse;
     return evidenceData
       .map((t, j) => {
         return {
