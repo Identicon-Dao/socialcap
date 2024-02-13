@@ -11,5 +11,6 @@
 
   <script>
     import StdFormField from "@components/forms/StdFormField.svelte";
-    export let value, label, options, placeholder;
+    export let 
+      value, label, options, placeholder;
   </script>

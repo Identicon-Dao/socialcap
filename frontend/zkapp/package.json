@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.28.1",
+    "@prgm/sveltekit-progress-bar": "^1.0.0",
     "@sveltejs/adapter-auto": "^2.0.1",
     "@sveltejs/adapter-static": "^2.0.2",
     "@sveltejs/kit": "^1.15.10",
@@ -46,6 +47,7 @@
     "o1js": "^0.14.1",
     "svelte-dnd-action": "^0.9.31",
     "svelte-exmarkdown": "^3.0.1",
+    "svelte-steps": "^2.4.1",
     "svelte-tags-input": "^5.0.0",
     "sveltestrap": "git+https://github.com/laxadev/sveltestrap.git"
   }

@@ -16,7 +16,15 @@ export {
   submitTasksBatch,
   requestOTP, 
   login,
-  signUp
+  signUp,
+  stopClaimings,
+  enableVoting,
+  reassignElectors,
+  closeVoting,
+  reopenVoting,
+  startTally,
+  closeTally,
+  issueCredentials
 }
 
 
@@ -235,3 +243,60 @@ async function submitTasksBatch(params: {
     return rs;
   return rs.data;
 };
+
+
+async function stopClaimings(planUid : string) : Promise<any> {
+  const rs = await apiClient.mutate("stop_claimings", {planUid});
+  if (rs.error) 
+    return rs;
+  return rs.data;
+}
+
+async function enableVoting(planUid : string) : Promise<any> {
+  const rs = await apiClient.mutate("enable_voting", {planUid});
+  if (rs.error) 
+    return rs;
+  return rs.data;
+}
+
+async function reassignElectors(planUid : string) : Promise<any> {
+  const rs = await apiClient.mutate("reassign_electors", {planUid});
+  if (rs.error) 
+    return rs;
+  return rs.data;
+}
+
+async function closeVoting(planUid : string) : Promise<any> {
+  const rs = await apiClient.mutate("close_voting", {planUid});
+  if (rs.error) 
+    return rs;
+  return rs.data;
+}
+
+async function reopenVoting(planUid : string) : Promise<any> {
+  const rs = await apiClient.mutate("reopen_voting", {planUid});
+  if (rs.error) 
+    return rs;
+  return rs.data;
+}
+
+async function startTally(planUid : string) : Promise<any> {
+  const rs = await apiClient.mutate("start_tally", {planUid});
+  if (rs.error) 
+    return rs;
+  return rs.data;
+}
+
+async function closeTally(planUid : string) : Promise<any> {
+  const rs = await apiClient.mutate("close_tally", {planUid});
+  if (rs.error) 
+    return rs;
+  return rs.data;
+}
+
+async function issueCredentials(planUid : string) : Promise<any> {
+  const rs = await apiClient.mutate("issue_credentials", {planUid});
+  if (rs.error) 
+    return rs;
+  return rs.data;
+}
