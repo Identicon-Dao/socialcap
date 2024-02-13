@@ -27,6 +27,9 @@ export async function load({ params, route, url }) {
       let user = await getCurrentUser();
 
       let aClaim = await loadClaim(params, user);
+      aClaim.evidenceData = typeof(aClaim.evidenceData) === 'string'
+        ? JSON.parse(aClaim.evidenceData)
+        : aClaim.evidenceData;
       return JSON.parse(JSON.stringify(aClaim));
     }
     throw error(404, 'Not found');
