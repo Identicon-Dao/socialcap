@@ -1,7 +1,7 @@
 
 import { error } from '@sveltejs/kit';
 
-import { getAdminedCommunity, getVotingStatus } from '@apis/queries';
+import { getAdminedCommunity } from '@apis/queries';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
