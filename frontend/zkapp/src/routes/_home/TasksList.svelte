@@ -84,10 +84,12 @@
       return {
         uid: t.uid,
         claimUid: t.claimUid,
+        claimAccountId: t.claim.claimAccountId || "",
         result: t.result,
         assigneeUid: t.assigneeUid,
         communityUid: t.community.uid,
-        planUid: t.plan.uid
+        planUid: t.plan.uid,
+        applicant: t.applicant.fullName || ''
       }
     });
 

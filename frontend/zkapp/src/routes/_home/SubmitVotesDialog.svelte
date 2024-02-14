@@ -101,15 +101,24 @@
 
 
 <script>
-  import { onMount, tick } from "svelte";
-  import { get } from "svelte/store";
-  import { Button, Icon, Spinner } from 'sveltestrap';
-  import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
-  import { getCurrentUser } from "$lib/models/current-user";
-  import { MINAExplorer, auroWallet$, deployedVoting$, deployedBatchVoting$ } from "$lib/contracts/stores";
-  //import { connectWallet } from "$lib/contracts/wallet";
-  //import { loadPlanVotingContract } from "$lib/contracts/batch-voting/loaders";
-  import { submitTasksBatch } from "@apis/mutations";
+import { onMount, tick } from "svelte";
+import { get } from "svelte/store";
+import { Button, Icon, Spinner } from 'sveltestrap';
+import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
+import { getCurrentUser } from "$lib/models/current-user";
+import { auroWallet$ } from "$lib/contracts/stores";
+import { buidNullifier } from "./batch-votes-nullifier";
+import { submitTasksBatch } from "@apis/mutations";
+
+const content = (tasks, root) => `
+Click "Sign" to submit your votes.
+
+I accept the Socialcap Terms of Service (https://socialcap.app)
+
+IAT: ${(new Date()).toISOString().replace('T', ' ')}
+  
+data: ${JSON.stringify({votes: tasks, root: root})}
+`;
 
   export let 
     open, // this opens/closes teh Modal Dialog
@@ -142,21 +151,26 @@
 
     let wallet = get(auroWallet$);
 
-    let signedData = await wallet.api.signMessage({ 
-      message: JSON.stringify(tasks) 
+    let nullifier = buidNullifier(
+      get(auroWallet$).publicKey,
+      tasks
+    )
+
+    let signedPack = await wallet.api.signMessage({ 
+      message: content(tasks, nullifier.root())
     });
-    console.log("signedData", 
-      signedData.publicKey, 
-      signedData.signature.field, 
-      signedData.signature.scalar);
+    console.log("signedPack", 
+      signedPack.publicKey, 
+      signedPack.signature.field, 
+      signedPack.signature.scalar);
     
     // we can now submit the Votes and continue the voting process
     status = SENDING; // sending ...
     await tick();
 
     let result = await submitTasksBatch({
-      senderAccountId: signedData.publicKey,
-      signedData: signedData
+      senderAccountId: signedPack.publicKey,
+      signedPack: signedPack
     });
 
     if (result.error) {
