@@ -7,6 +7,7 @@ import { getAdminedCommunity } from '@apis/queries';
 export async function load({ params }) {
     if (params.uid !== "") {
         let obj = await getAdminedCommunity(params.uid);
+        console.log("data", obj)
         return JSON.parse(JSON.stringify(obj));
     }
 

@@ -6,7 +6,7 @@
         bind:state={claim.state} 
       />
     </span>
-    <b>{claim.applicant.fullName}</b>
+    <b>{claim.applicant ? claim.applicant.fullName : "Unknown"}</b>
     <br/>
     
     <a 
@@ -22,12 +22,13 @@
       <b class="fs-sm">{claim.uid}</b>
     </a>
   </td>
-
-  {#each columns as col}
-    <td class="fs-sm ps-3 pb-2">
-      {valueToString(claim.evidenceData[col])}
-    </td>
-  {/each}
+  {#if ((columns || []).length > 0)}
+    {#each columns as col}
+      <td class="fs-sm ps-3 pb-2">
+        {valueToString(claim.evidenceData[col])}
+      </td>
+    {/each}
+  {/if}
 </tr>
 
 <script>

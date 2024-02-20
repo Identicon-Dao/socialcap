@@ -1,16 +1,12 @@
 <div class="text-start fs-md p-0 m-0">
 
-  {#if field.type === "text"}
-    {field.value || ""}
-  {/if}
-
-  {#if field.type === "note"}
+  {#if field.type === "text" || field.type === "note"}
     <Markdown 
       md={(field.value || "").replaceAll('\n', '  \n')} 
       {plugins} 
-    />              
+      />
   {/if}
-    
+
   {#if field.type === "radio"}
     {field.value || ""}
   {/if}

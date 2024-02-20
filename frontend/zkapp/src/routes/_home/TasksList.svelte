@@ -1,46 +1,55 @@
-<div class="pt-3">
-  <div class="text-end py-3 mx-4 d-flex justify-content-between align-items-center border-0 border-bottom">
-        <Dropdown autoClose="inside" size="sm">
-          Show &nbsp; <DropdownToggle class="--bg-light" caret>Columns</DropdownToggle>
-          <DropdownMenu>
-            {#each fields as field}
-              {#if !field.isRemark}
-                <DropdownItem>
-                  <Input 
-                    type="checkbox" 
-                    label={field.label}
-                    bind:checked={field.selected}
-                  />
-                </DropdownItem>  
-              {/if}
-            {/each}
-          </DropdownMenu>
-        </Dropdown>    
-        
-        <Button 
-          on:click={() => submitAllVotes()}
-          color="primary" size="" class="me-4">
-          Submit your votes 
-        </Button>
+{#if !data.length}
+  <EmptyItemsCard notice="You have no pending tasks" />
+{:else}
+  <div class="pt-3">
+    <div class="text-end py-3 mx-4 d-flex justify-content-between align-items-center border-0 border-bottom">
+          <Dropdown autoClose="inside" size="sm">
+            Show &nbsp; <DropdownToggle class="--bg-light" caret>Columns</DropdownToggle>
+            <DropdownMenu>
+              {#each fields as field}
+                {#if !field.isRemark}
+                  <DropdownItem>
+                    <Input 
+                      type="checkbox" 
+                      label={field.label}
+                      bind:checked={field.selected}
+                    />
+                  </DropdownItem>  
+                {/if}
+              {/each}
+            </DropdownMenu>
+          </Dropdown>    
+          
+          <Button 
+            on:click={() => submitAllVotes()}
+            color="primary" size="" class="me-4">
+            Submit your votes 
+          </Button>
+    </div>
+
+    {#each data as task}
+      <TaskItem uid={task.uid} columns={columns} bind:data={task}/>
+    {/each}
   </div>
+{/if}
 
-  {#each data as task}
-    <TaskItem uid={task.uid} columns={columns} bind:data={task}/>
-  {/each}
-</div>
-
-<SubmitVotesDialog bind:open={openDlg} tasks={completedTasks}/>
+<SubmitVotesDialog 
+  bind:open={openDlg} 
+  tasks={completedTasks}
+  on:submited_batch={getUpdatedTasksList}
+/>
 
 <script>
   import { get } from "svelte/store";
   import { Button, Input } from "sveltestrap";
   import { Dropdown, DropdownItem,DropdownToggle, DropdownMenu } from "sveltestrap";
+  import EmptyItemsCard from "@components/cards/EmptyItemsCard.svelte";
   import TaskItem from "./TaskItem.svelte";
   import SubmitVotesDialog from "./SubmitVotesDialog.svelte";
   import { deployedBatchVoting$ } from "$lib/contracts/stores";
-  import { loadPlanVotingContract } from "$lib/contracts/batch-voting/loaders";
   import { connectWallet } from "$lib/contracts/wallet";
 	import { ASSIGNED } from "@models/votes";
+  import { getMyTasks } from '@apis/queries';
 
   export let data;
 
@@ -59,7 +68,8 @@
     if ((tasks || []).length === 0) 
       return;
 
-    const evidenceData = JSON.parse(tasks[0].claim.evidenceData);
+    const firstParse = JSON.parse(tasks[0].claim.evidenceData);
+    let evidenceData = (typeof(firstParse) === 'string') ? JSON.parse(firstParse) : firstParse;
     return evidenceData
       .map((t, j) => {
         return {
@@ -83,10 +93,12 @@
       return {
         uid: t.uid,
         claimUid: t.claimUid,
+        claimAccountId: t.claim.claimAccountId || "",
         result: t.result,
         assigneeUid: t.assigneeUid,
         communityUid: t.community.uid,
-        planUid: t.plan.uid
+        planUid: t.plan.uid,
+        applicant: t.applicant.fullName || ''
       }
     });
 
@@ -104,5 +116,11 @@
 
     // now we can open the Dlg
     openDlg = true;
+  }
+
+  async function getUpdatedTasksList() {
+    let allTasks = await getMyTasks({});
+    let pending = allTasks.filter((t) => t.result === ASSIGNED+"");
+    data = [].concat(pending);
   }
 </script>

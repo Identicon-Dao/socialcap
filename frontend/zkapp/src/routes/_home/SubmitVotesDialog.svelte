@@ -101,14 +101,13 @@
 
 
 <script>
-  import { onMount, tick } from "svelte";
+  import { onMount, tick, createEventDispatcher } from "svelte";
   import { get } from "svelte/store";
   import { Button, Icon, Spinner } from 'sveltestrap';
   import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
   import { getCurrentUser } from "$lib/models/current-user";
-  import { MINAExplorer, auroWallet$, deployedVoting$, deployedBatchVoting$ } from "$lib/contracts/stores";
-  //import { connectWallet } from "$lib/contracts/wallet";
-  //import { loadPlanVotingContract } from "$lib/contracts/batch-voting/loaders";
+  import { auroWallet$ } from "$lib/contracts/stores";
+  import { buidNullifier } from "./batch-votes-nullifier";
   import { submitTasksBatch } from "@apis/mutations";
 
   export let 
@@ -118,6 +117,7 @@
   let user ;
   let statusMessage = "", status = 0;
   let pendingTxn;
+  let dispatch = createEventDispatcher();
 
   const READY = 0, SENDING = 2, FAILED = 5, SENT = 3;
 
@@ -127,6 +127,10 @@
   let openNoWalletDlg = false;
   const toggleNoWalletDlg = () => (openNoWalletDlg = !openNoWalletDlg);
 
+  const signableContent = (tasks, root) => JSON.stringify({
+    votes: tasks, 
+    root: root
+  });
 
   onMount(async () => {
     user = await getCurrentUser();
@@ -142,21 +146,26 @@
 
     let wallet = get(auroWallet$);
 
-    let signedData = await wallet.api.signMessage({ 
-      message: JSON.stringify(tasks) 
+    let nullifier = buidNullifier(
+      get(auroWallet$).publicKey,
+      tasks
+    )
+
+    let signedPack = await wallet.api.signMessage({ 
+      message: signableContent(tasks, nullifier.root())
     });
-    console.log("signedData", 
-      signedData.publicKey, 
-      signedData.signature.field, 
-      signedData.signature.scalar);
+    console.log("signedPack", 
+      signedPack.publicKey, 
+      signedPack.signature.field, 
+      signedPack.signature.scalar);
     
     // we can now submit the Votes and continue the voting process
     status = SENDING; // sending ...
     await tick();
 
     let result = await submitTasksBatch({
-      senderAccountId: signedData.publicKey,
-      signedData: signedData
+      senderAccountId: signedPack.publicKey,
+      signedPack: signedPack
     });
 
     if (result.error) {
@@ -177,7 +186,8 @@
   function doneVoting() {
     toggle(); // close dialog
     status = READY; // get ready for next ...
-    setTimeout(() => window.location.reload());
+    dispatch('submited_batch'); // notify the TasksList
+    //setTimeout(() => window.location.reload());
   }
 </script>
 

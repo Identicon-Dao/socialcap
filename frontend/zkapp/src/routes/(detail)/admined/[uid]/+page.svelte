@@ -116,7 +116,7 @@
               type="textarea"
               rows={3}
               class="w-100"
-              bind:value={data.xadmins}
+              bind:value={data.xadminss}
              />
           </div>
         {:else}
@@ -127,7 +127,15 @@
       </TabPane>
 
       <TabPane tabId="claims" tab="Claims" class="py-4 px-2">
-        <ClaimsList communityUid={data.uid} claims={data.claims} />
+        <ClaimsList communityUid={data.uid} claims={data.claims} plans={data.plans} />
+      </TabPane>
+      <TabPane tabId="voting" tab="Voting" class="py-4 px-2">
+        <Voting communityUid={data.uid}
+            judges={data.validators}
+            adminUid={data.adminUid}
+            xadmins={data.xadmins}
+            plans={data.plans}
+            members={data.members} />
       </TabPane>
     </TabContent>
 
@@ -157,6 +165,7 @@
   import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
   import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
   import ClaimsList from "./ClaimsList.svelte";
+  import Voting from "./Voting.svelte"
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
   import { AppStatus } from "@utilities/app-status";
