@@ -60,6 +60,14 @@
           }
         ]}
       /> 
+      {#if (tallyed)} 
+        <Alert color="info" class="mt-4">
+          Processed 
+            batches={tallyed.batchesCount} 
+            claims={tallyed.claimsCount} 
+            votes={tallyed.votesCount}
+        </Alert>
+      {/if}
     {/if}
 
     {#if (currentStep === 4)}
@@ -89,6 +97,7 @@
     export let communityUid, startsUTC, endsUTC, judges, adminUid, xadmins, plans, members;
     
     let selectedPlanUid = undefined, state = undefined, currentStep;
+    let tallyed = null;
 
     let steps = [
         { text: 'Claiming', icon: Icon, iconProps: {name: "envelope-plus-fill"} },
@@ -132,7 +141,8 @@
     }
 
     async function startTallying() {
-      let uPlan = await startTally(selectedPlanUid);
+      let done = await startTally(selectedPlanUid);
+      tallyed = done.processed;
       state = await getUpdatedPlanState(selectedPlanUid)
     }
 
