@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Push a Socialcap PROD
-cp env.prod.ts ./src/lib/apis/config.ts
+cp config-mainnet.ts ./src/lib/apis/config.ts
 
 # first build it
 npm run build
