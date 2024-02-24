@@ -54,7 +54,7 @@
             <Button color="primary" size="md"
             class="px-3 py-2 rounded-3 bg-primary text-white border-0"
             on:click={registerIt}
-            disabled={!dataIsOk(data)}>
+            disabled={!dataIsOk(data) || registering}>
             Register
           </Button>
           &nbsp;
@@ -97,7 +97,7 @@
   import { updateCommunity } from '@apis/mutations';
 	
   let user = null;
-
+  let registering = false;
   let data = {
     name: "",
     description: "",
@@ -122,8 +122,12 @@
     data.new = true; // indicate it is a new community !
     data.adminUid = user.uid;
     data.state = "INITIAL";
+    registering = true;
     const updated = await updateCommunity(data);
     if (updated) 
+    {
+      registering = false;
       history.back();
+    }
   }
 </script>
