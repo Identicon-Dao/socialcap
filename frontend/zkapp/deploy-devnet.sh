@@ -17,3 +17,5 @@ rsync -vh -az ./build/ socialcap-dev:~/ui/build
 rsync -vh -az ./docker/ socialcap-dev:~/ui/docker
 scp ./package.json socialcap-dev:~/ui/package.json
 
+# restart Nginx 
+ssh socialcap-dev 'sudo -S /etc/init.d/nginx restart'
