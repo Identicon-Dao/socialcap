@@ -38,11 +38,11 @@
         <div class="d-flex justify-content-start">
           <p class="">
             <span class="fs-xs">Start Date</span>
-            <br/><b class="fs-sm">{prettyDate(data.plan.startsUTC)}</b>
+            <br/><b class="fs-sm">{showUTCDatetime(data.plan.startsUTC)} UTC</b>
           </p>
           <p class="px-5">
             <span class="fs-xs">Ends Date</span>
-            <br/><b class="fs-sm">{prettyDate(data.plan.endsUTC)}</b>
+            <br/><b class="fs-sm">{showUTCDatetime(data.plan.endsUTC)} UTC</b>
           </p>
           <!-- HIDE FEE UNTIL GET FIXED -->
           <!-- <p class="px-6">
@@ -59,8 +59,8 @@
 
     <div class="m-0 p-0 mt-4">
       <Alert color="warning" class="p-3 fs-md lh-md">
-        All submissions are due by <b>{prettyDate(data.plan.endsUTC)} 23:59 UTC </b>
-          {#if (data.plan.endsUTC)}({prettyDateFull(data.plan.endsUTC)} at your local time){/if}
+        All submissions are due by <b>{showUTCDatetime(data.plan.endsUTC)} UTC </b>
+          {#if (data.plan.endsUTC)}<br>({prettyDateFull(data.plan.endsUTC)} at your local time){/if}
       </Alert>
     </div>
 
@@ -124,7 +124,7 @@
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import StateBadge from "@components/badges/StateBadge.svelte";
-  import { prettyDate, prettyDateFull } from "@utilities/datetime";
+  import { prettyDate, prettyDateFull, showUTCDatetime } from "@utilities/datetime";
   import { addClaim, updateClaim, updateProfile, submitClaim } from "@apis/mutations";
   import EvidenceForm from "./EvidenceForm.svelte";
   import ConfirmSubmitDialog from "./ConfirmSubmitDialog.svelte";
