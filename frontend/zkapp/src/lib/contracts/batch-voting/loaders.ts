@@ -2,6 +2,7 @@ import { fetchAccount, Mina, PublicKey } from "o1js";
 import { PLAN_VOTING_CONTRACT_ID } from "../addresses"
 import { CLAIM_TX_FEE } from "../fees";
 //import { PlanVotingContract } from "@socialcap/batch-voting";
+// import { PlanVotingContract } from "@socialcap/batch-voting";
 import { AppStatus } from "@utilities/app-status";
 import { MINABerkeley, berkeleyNetwork$, deployedBatchVoting$, deployedVoting$ } from "../stores";
 
@@ -12,6 +13,7 @@ export async function loadPlanVotingContract() {
   Mina.setActiveInstance(Mina.Network(MINABerkeley));
 
 //   // create an instance of the Add contract
+  // create an instance of the Add contract
 //   await PlanVotingContract.compile();
 //   console.log("contract compiled !");
 // 

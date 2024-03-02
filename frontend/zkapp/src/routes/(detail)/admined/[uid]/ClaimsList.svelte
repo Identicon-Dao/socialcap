@@ -65,11 +65,13 @@
     <thead>
       <ClaimItemHeader fields={fields} columns={columns} />
     </thead>
-    {#if (filteredClaims)}
-    {#each filteredClaims as claim}
-        <ClaimItem claim={claim} columns={columns} />
-      {/each}
-    {/if}
+    <tbody>
+      {#if (filteredClaims)}
+        {#each filteredClaims as claim}
+          <ClaimItem claim={claim} columns={columns} />
+        {/each}
+      {/if}
+    </tbody>
   </table>
   {/if}
 </div>

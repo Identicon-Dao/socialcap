@@ -4,9 +4,9 @@
  */
 import { error } from '@sveltejs/kit';
 import { UID } from "@utilities/uid";
-
 import { getPlan, getCommunity, getClaim } from "@apis/queries";
 import { getCurrentUser } from '@models/current-user';
+import { fixEvidenceData } from './fix-evidence-data';
 
 async function initNewClaim(params, user) {
   const planUid = params.uid;
@@ -68,6 +68,7 @@ async function loadClaim(params, user) {
   claim.type = plan.name;
   claim.description = plan.description;
   claim.image = plan.image; 
+  claim.evidenceData = fixEvidenceData(plan.evidence, claim.evidenceData);
 
   return { 
     claim: claim, 

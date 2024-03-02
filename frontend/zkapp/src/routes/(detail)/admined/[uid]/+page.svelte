@@ -207,7 +207,19 @@
       return;
     }
     loading = true;
-    const updated = await updateCommunity(data);
+
+    // PATCH: need to remove additional props from the Community entity
+    let base = JSON.parse(JSON.stringify(data)); // clone first !
+    delete base.plans;
+    delete base.proposed;
+    delete base.members;
+    delete base.validators;
+    delete base.claims;
+    delete base.countMembers; 
+    delete base.countCredentials;
+    delete base.countClaims;
+
+    const updated = await updateCommunity(base);
     if (updated) 
       history.back();
     loading = false;
