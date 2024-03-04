@@ -56,13 +56,14 @@
         </div>
       </div>
     </div>
-
+    {#if !isSubmissionEnabled(submissionDateUtc)}
     <div class="m-0 p-0 mt-4">
       <Alert color="warning" class="p-3 fs-md lh-md">
         All submissions are due by <b>{showUTCDatetime(data.plan.endsUTC)} UTC </b>
           {#if (data.plan.endsUTC)}<br>({prettyDateFull(data.plan.endsUTC)} at your local time){/if}
       </Alert>
     </div>
+    {/if}
 
   </Section>
   
