@@ -9,7 +9,7 @@
   </DropdownToggle>
 
   <DropdownMenu>
-    {#each [MEMBER, VALIDATOR, JUDGE] as role}
+    {#each [NONE, MEMBER, VALIDATOR, JUDGE] as role}
       <DropdownItem on:click={() => changeRole(role)}>
         {ALL_ROLES[role]}
       </DropdownItem>  
@@ -23,7 +23,7 @@
   import { Spinner } from "sveltestrap";
   import RoleBadge from "@components/badges/RoleBadge.svelte";
   import { changeMemberRole } from "@apis/mutations";
-	import { ALL_ROLES, MEMBER, VALIDATOR, JUDGE } from "@models/roles";
+	import { ALL_ROLES, NONE, MEMBER, VALIDATOR, JUDGE } from "@models/roles";
 
   export let personUid, communityUid, role;
 
