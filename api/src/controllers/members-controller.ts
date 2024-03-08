@@ -20,7 +20,7 @@ export async function joinCommunity(params: any) {
   let rsm = await updateEntity("members", memberUid, {
     communityUid: communityUid,
     personUid: personUid,
-    role: "1", // PLAIN, must start as a plain member and the promote
+    role: "0", // PENDING, must start as Pending. Admin should accept.
     new: true
   })
 
@@ -39,8 +39,8 @@ export async function updateMemberRole(params: {
 }) {
   const { communityUid, personUid, role } = params;
 
-  if (! [1,2,3].includes(role))
-    raiseError.BadRequest("Can not promote this invalid role !")
+  if (! [0,1,2,3].includes(role))
+    raiseError.BadRequest("Can not update this invalid role !")
 
   // first get current instance 
   let memberUid = communityUid+personUid;
@@ -63,7 +63,7 @@ export async function promoteMember(params: any) {
   const { communityUid, personUid, role } = params;
 
   if (! ["2","3"].includes(role))
-    raiseError.BadRequest("Can not promote this invalid role !")
+    raiseError.BadRequest("Can not promote this invalid role !!!!!")
 
   const members = await prisma.members.findFirst({
     where: { AND: [

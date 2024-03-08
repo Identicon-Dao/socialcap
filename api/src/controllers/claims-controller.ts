@@ -73,7 +73,12 @@ export async function getMyClaimables(params: any) {
 
   // all commnunity Uids where is a a member
   const members = await prisma.members.findMany({
-    where: { personUid: userUid }
+    where: { AND: [
+      { personUid: { equals: userUid }}
+    ],
+    NOT: {
+      role: { equals: "0"} // NOT PENDING ROLE
+    }},    
   })
   const cuids  = members.map((t) => t.communityUid);
   if (! members)

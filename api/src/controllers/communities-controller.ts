@@ -59,7 +59,7 @@ export async function getAdminedCommunity(params: any) {
   data = Object.assign(data, counters);
 
   data.claims = await getCommunityClaims(uid, members);
-  
+
   return hasResult(data); 
 }
 
@@ -76,7 +76,7 @@ export async function updateCommunity(params: any) {
   await updateEntity("members", memberUid, {
     communityUid: cm.uid,
     personUid: cm.adminUid,
-    role: "1", // PLAIN,
+    role: "0", // PLAIN,
     new: params.new
   })
 

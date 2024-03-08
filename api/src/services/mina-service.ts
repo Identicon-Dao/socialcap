@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { logger } from "../global.js";
 import { 
   Mina, PublicKey, PrivateKey, MerkleMapWitness, CircuitString,
