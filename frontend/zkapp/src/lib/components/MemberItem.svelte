@@ -1,4 +1,4 @@
-
+  
 <div class="row fs-sm mx-0 mb-2 ps-4 py-1 border-bottom border-1">
   <span class="col-7">
     <h6>{p.fullName}</h6>
