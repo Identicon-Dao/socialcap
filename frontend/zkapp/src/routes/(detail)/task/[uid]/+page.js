@@ -11,6 +11,8 @@ import { getTask } from "@apis/queries";
 export async function load({ params, route, url }) {
     if (params.uid !== "") {
       let aTask = await getTask(params.uid);
+      if (!aTask)
+        throw error(404, 'Task Not found');
       console.log("@aTask", aTask);
       return JSON.parse(JSON.stringify(aTask)); 
     }

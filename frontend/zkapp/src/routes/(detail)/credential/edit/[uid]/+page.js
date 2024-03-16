@@ -8,9 +8,7 @@ import { getPlan, getCommunity, getClaim } from "@apis/queries";
 import { getCurrentUser } from '@models/current-user';
 import { fixEvidenceData } from './fix-evidence-data';
 
-async function initNewClaim(params, user) {
-  const planUid = params.uid;
-
+async function initNewClaim(planUid, user) {
   const plan = await getPlan(planUid);
 
   const community = await getCommunity(plan.communityUid);
@@ -55,11 +53,10 @@ async function initNewClaim(params, user) {
 }
 
 
-async function loadClaim(params, user) {
-  const claimUid = params.uid;
-
+async function loadClaim(claimUid) {
   let claim = await getClaim(claimUid);
-
+  if (!claim)
+    throw error(404, 'Claim Not found');
   const plan = await getPlan(claim.planUid);
 
   const org = await getCommunity(claim.communityUid);
@@ -81,14 +78,15 @@ async function loadClaim(params, user) {
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
-  if (params.slug !== "") {
+
+  if (params.uid !== "") {
       let user = await getCurrentUser();
       const isNew = url.searchParams.get('isnew', null);
 
       return ((isNew !== null)
-        ? await initNewClaim(params, user) 
-        : await loadClaim(params, user)
+        ? await initNewClaim(params.uid, user) 
+        : await loadClaim(params.uid)
       )  
     }
-    throw error(404, 'Not found');
+    throw error(500, 'Ndsdsdot found');
 }

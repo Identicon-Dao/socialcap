@@ -14,6 +14,8 @@ function patchEvidence(evidence) {
 export async function load({ params }) {
     if (params.uid !== "") {
         let obj = await getPlan(params.uid);
+        if (!obj)
+          throw error(404, 'Master Plan Not found');
         obj.evidence = patchEvidence(obj.evidence);
         return JSON.parse(JSON.stringify(obj));
     }
