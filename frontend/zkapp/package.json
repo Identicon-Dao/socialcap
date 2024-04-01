@@ -44,6 +44,7 @@
     "@sveltejs/adapter-static": "^2.0.2",
     "axios": "^1.4.0",
     "o1js": "^0.14.1",
+    "svelte-device-info": "^1.0.4",
     "svelte-dnd-action": "^0.9.31",
     "svelte-exmarkdown": "^3.0.1",
     "svelte-tags-input": "^5.0.0",
