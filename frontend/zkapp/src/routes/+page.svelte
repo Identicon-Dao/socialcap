@@ -19,7 +19,8 @@
   import CommunityCard from '@components/cards/CommunityCard.svelte';
   import EmptyItemsCard from "@components/cards/EmptyItemsCard.svelte";
   import TasksList from "./_home/TasksList.svelte";
-
+  import Device from 'svelte-device-info'
+	import Mobile from "@components/errors/Mobile.svelte";
   export let data; // this is the data for the lists
 
   let currentPage = $page.url.pathname;
@@ -30,7 +31,7 @@
   onMount(async () => {
     console.log("+page.svelte onMount")
     console.log(ALL_STATES);
-    
+    console.log("device is mobile?", Device.isMobile)
     if (isAuthenticated && user) 
       goto(currentPage)
     else
@@ -41,6 +42,9 @@
 <RootHeader />
 
 <HubPageContent>
+  {#if Device.isMobile}
+    <Mobile />
+  {:else}
     <Section class="section-fluid px-0">
       <!-- {#if user && isFirstTimeUser(user)}
         <div class="mb-4">
@@ -100,4 +104,5 @@
 
         </TabContent>      
     </Section>
+    {/if}
 </HubPageContent>
