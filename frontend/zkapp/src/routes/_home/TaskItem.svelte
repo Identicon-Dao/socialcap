@@ -1,7 +1,7 @@
 <div class="mx-3 border-0 border-bottom border-secondary-subtle">
     <div class="p-3 fs-sm text-secondary d-flex justify-content-start align-items-start">
         <img 
-          src={data.plan.image} crossorigin 
+          src={data.planImage} crossorigin 
           alt="Credential logo" 
           width="42px" 
           class="img-thumbnail rounded-2 ms-3 me-3 mt-2"
@@ -9,13 +9,13 @@
 
         <div class="col-4">
           <p class="fs-md p-0 m-0">
-            <b class="text-black">{data.applicant.fullName}</b>
+            <b class="text-black">{data.claimer}</b>
             <!-- <span class="fs-nm ms-2">
               <StateBadge state={data.claim.state} />
             </span> -->
     
             <br>
-            <a href={`credential/claimed/${data.claim.uid}`}>
+            <a href={`credential/claimed/${data.claimUid}`}>
               Claim: <b>{claimIdn}</b>
             </a>
           </p>
@@ -24,15 +24,15 @@
             <div class="d-flex justify-content-start m-0 py-1">
               <p class="p-0 m-0">
                 <span class="fs-sm">Assigned</span>
-                <b class="fs-sm">{prettyDate(data.assignedUTC)}</b>
+                <b class="fs-sm">{prettyDate(data.assignedUtc)}</b>
                 &nbsp;
                 <span class="fs-sm">Due</span>
-                <b class="fs-sm">{prettyDate(data.dueUTC)}</b>
+                <b class="fs-sm">{prettyDate(data.dueUtc)}</b>
                 &nbsp;
                 <span class="fs-sm">Voting</span>
                 <b class="fs-sm">
-                  {data.claim.positiveVotes+data.claim.negativeVotes+data.claim.ignoredVotes} 
-                  / {data.claim.requiredVotes}
+                  {data.claimPositiveVotes+data.claimNegativeVotes+data.claimIgnoredVotes} 
+                  / {data.claimRequiredVotes}
                 </b>
               </p>
             </div>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="w-100 me-3 ms-4 fs-nm text-black">
-          {evidenceToText(data.claim, columns)}
+          {evidenceToText(data.claimEvidenceData, columns)}
         </div>
 
         <div class="col-2 text-end">
@@ -67,7 +67,7 @@
 
   export let data, columns;
   
-  let claimIdn = data.claim.uid.slice(0,6)+'...'+data.claim.uid.slice(-6);
+  let claimIdn = data.claimUid.slice(0,6)+'...'+data.claimUid.slice(-6);
 
   const api = getAPIConfig();
 
@@ -91,8 +91,8 @@
     return "";
   }
 
-  function evidenceToText(claim, columns) {
-    const evidence = JSON.parse(claim.evidenceData);
+  function evidenceToText(evidenceData, columns) {
+    const evidence = JSON.parse(evidenceData);
     let content = "";
     columns.forEach((col) => {
       let field = evidence[col];

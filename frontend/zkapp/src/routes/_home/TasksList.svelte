@@ -68,7 +68,7 @@
     if ((tasks || []).length === 0) 
       return;
 
-    const firstParse = JSON.parse(tasks[0].claim.evidenceData);
+    const firstParse = JSON.parse(tasks[0].claimEvidenceData);
     let evidenceData = (typeof(firstParse) === 'string') ? JSON.parse(firstParse) : firstParse;
     return evidenceData
       .map((t, j) => {
@@ -93,12 +93,12 @@
       return {
         uid: t.uid,
         claimUid: t.claimUid,
-        claimAccountId: t.claim.claimAccountId || "",
+        claimAccountId: t.claimAccountId || "",
         result: t.result,
         assigneeUid: t.assigneeUid,
-        communityUid: t.community.uid,
-        planUid: t.plan.uid,
-        applicant: t.applicant.fullName || ''
+        communityUid: t.communityUid,
+        planUid: t.planUid,
+        applicant: t.claimer || ''
       }
     });
 
