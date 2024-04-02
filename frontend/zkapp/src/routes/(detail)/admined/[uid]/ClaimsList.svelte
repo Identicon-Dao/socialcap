@@ -1,7 +1,10 @@
 <div>
   <div class="d-flex align-items-left p-3">
-      <MasterPlanSelector 
-      bind:value={planSelected} label="Master Plan" options={plans.map(p => ({ value: p.uid, text: p.name}))} placeholder="Select a Master Plan" />
+    <MasterPlanSelector 
+      bind:value={planSelected} 
+      label="Master Plan" 
+      options={plans.map(p => ({ value: p.uid, text: p.name}))} 
+      placeholder="Select a Master Plan" />
   </div>
   {#if (planSelected)}
   <div class="d-flex justify-content-between align-items-center p-3">
@@ -61,6 +64,7 @@
       </Button>
     </div>
   </div>
+
   <table class="table table-striped table-hover">
     <thead>
       <ClaimItemHeader fields={fields} columns={columns} />
@@ -113,7 +117,7 @@
         return claim;
       const texts = (values || []).map((t) => "["+t.value+"]").join("");
       claim.searchable = (texts
-        +(claim.applicant ? claim.applicant.fullName : "")
+        +(claim.applicant || "")
         +ALL_STATES[claim.state])
         .toUpperCase();
 
