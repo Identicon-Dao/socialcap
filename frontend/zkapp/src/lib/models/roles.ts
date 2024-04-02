@@ -6,7 +6,7 @@ export const
 ;
 
 export const ALL_ROLES = {
-  0: "None",
+  0: "Pending",
   1: "Member",
   2: "Validator",
   3: "Judge"

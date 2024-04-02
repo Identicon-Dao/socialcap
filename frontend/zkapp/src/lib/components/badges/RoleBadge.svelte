@@ -9,7 +9,7 @@
   export let role; 
 
   const COLORS = {
-    0: "white", // NONE",
+    0: "warning", // NONE",
     1: "secondary", // PLAIN,   
     2: "info", // VALIDATOR",   
     3: "danger", // AUDITOR or JUDGE",    
