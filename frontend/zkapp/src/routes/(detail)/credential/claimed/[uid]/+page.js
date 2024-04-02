@@ -3,9 +3,7 @@ import { getPlan, getCommunity, getClaim } from "@apis/queries";
 import { getCurrentUser } from '@models/current-user';
 
 
-async function loadClaim(params, user) {
-  const claimUid = params.uid;
-
+async function loadClaim(claimUid) {
   let claim = await getClaim(claimUid);
 
   const plan = await getPlan(claim.planUid);
@@ -23,10 +21,10 @@ async function loadClaim(params, user) {
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
-  if (params.slug !== "") {
-      let user = await getCurrentUser();
-
-      let aClaim = await loadClaim(params, user);
+  if (params.uid !== "") {
+      let aClaim = await loadClaim(params.uid);
+      if (!aClaim)
+        throw error(404, 'Claim Not found');
       aClaim.evidenceData = typeof(aClaim.evidenceData) === 'string'
         ? JSON.parse(aClaim.evidenceData)
         : aClaim.evidenceData;
