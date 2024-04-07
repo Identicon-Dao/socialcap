@@ -78,29 +78,35 @@
       </TabPane>
 
       <TabPane tabId="app-claims" tab="Approved Claims" class="py-4 px-2">
-        {#if !data?.approvedClaims?.length}
+        {#if !approvedClaims || !approvedClaims?.length}
         <EmptyItemsCard notice="There are no approved claims" />
-        {/if}
-        {#each data.approvedClaims as credential}
+        {:else}
+          {#each approvedClaims as credential}
           <CredentialCard uid={credential.uid} data={credential}/>
         {/each}
+        {/if}
+       
       </TabPane>
 
       <TabPane tabId="claims" tab="My claims">
-        {#if !data?.claimed?.length}
-          <EmptyItemsCard notice="You have no pending claims" />
+        {#if !claimed || !claimed?.length}
+          <EmptyItemsCard notice="You have no pending claims" /> 
+        {:else}
+          {#each data.claimed as claimed}
+            <ClaimCard data={claimed}/>
+          {/each}
         {/if}
-        {#each data.claimed as claimed}
-          <ClaimCard data={claimed}/>
-        {/each}
+      
       </TabPane>
       <TabPane tabId="my-credentials" tab="My credentials" class="py-4 px-2">
-        {#if !data?.credentials?.length}
+        {#if !credentials || !credentials?.length}
           <EmptyItemsCard notice="You don't have any approved credential from this community" />
+        {:else}
+          {#each credentials as credential}
+            <CredentialCard uid={credential.uid} data={credential}/>
+          {/each}
         {/if}
-        {#each data.credentials as credential}
-          <CredentialCard uid={credential.uid} data={credential}/>
-        {/each}
+      
       </TabPane>
     </TabContent>
 
@@ -109,24 +115,35 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Button, Badge, TabContent, TabPane, FormGroup, Label, Input, } from "sveltestrap";
-  import CanClaimNow from "@components/cards/CanClaimNow.svelte";
+  import { Button, Badge, TabContent, TabPane } from "sveltestrap";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
   import MemberItem from "./MemberItem.svelte";
-  import ClaimsList from "./ClaimsList.svelte";
   import { goto } from "$app/navigation";
   import ClaimCard from "@components/cards/ClaimCard.svelte";
   import EmptyItemsCard from "@components/cards/EmptyItemsCard.svelte";
   import CredentialCard from '@components/cards/CredentialCard.svelte';
+  import { getMyClaims, getMyCredentials } from '@apis/queries';
+  import { APPROVED } from "@models/states";
 
   export let data;
   let user = {};
   let tab;
+
+  let claimed = null; 
+  let credentials = null;
+  let approvedClaims = null;
+  let claimables = null;
+
+
   onMount(async () => {
     user = await getCurrentUser();
+    claimed = await getMyClaims(params);
+    credentials = await getMyCredentials({user, communityUid: params.uid});
+    approvedClaims = data.claims.filter((c) => c.state == APPROVED);
+    claimables = await getClaimables(params.uid)
   })
 </script>
