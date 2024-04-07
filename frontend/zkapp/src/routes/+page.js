@@ -36,12 +36,7 @@ export async function load({ params, route, url }) {
       if (rs) {
         rs.user = user;
         rs.isAuthenticated = isAuthenticated;
-        rs.assigned = (rs.assigned || []).filter((t) => t.state=== ASSIGNED),
         rs.stats = aStats;
-        // order claim by createdUTC desc
-        rs.claimed = rs.claimed.sort((a, b) => new Date(b.createdUTC) - new Date(a.createdUTC) );
-        rs.claimables = (rs.claimables || []).filter((t) => t.state === ACTIVE);
-        console.log("main page data=", rs);
       }
     }  
 

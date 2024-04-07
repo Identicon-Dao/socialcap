@@ -1,3 +1,6 @@
+{#if !claimables}
+  <span>Loading...</span>
+{:else}
 <Card class="border-1 border-gray rounded-4 text-white bg-primary p-3">
   <div class="position-absolute mb-4 me-2 bottom-0 end-0">
     <img class="svg" alt="" width="80%" src={"/img/svg/ClaimCard.svg"} />
@@ -10,7 +13,7 @@
         <h1 class="fs-1">Claim</h1>
         <p class="fs-4 color-white">
           <Badge class="bg-black me-2">
-            <b class="fs-4">{data.stats.countClaimables}</b>
+            <b class="fs-4">{claimables.length}</b>
           </Badge>available credentials
         </p>
       </div>
@@ -27,14 +30,20 @@
   </div>
 </Card>
 
-<ClaimCredentialDialog bind:open claimables={data.claimables} />
-
+<ClaimCredentialDialog bind:open claimables={claimables} />
+{/if}
 
 <script>
   import { Card, CardBody, Button, Badge } from "sveltestrap";
   import ClaimCredentialDialog from "@components/dialogs/ClaimCredentialDialog.svelte";
-
+  import { onMount } from "svelte";
+  import { getMyClaimables } from "@apis/queries";
   export let data;
-
+  const user = data.user;
   let open = false;
+  let claimables = null;
+
+  onMount(async () => {
+    claimables = await getMyClaimables({user});
+  })
 </script>
