@@ -21,13 +21,17 @@
   import TasksList from "./_home/TasksList.svelte";
   import Device from 'svelte-device-info'
 	import Mobile from "@components/errors/Mobile.svelte";
+	import { getMyClaims, getMyTasks, getMyCommunities, getMyCredentials } from "@apis/queries";
   export let data; // this is the data for the lists
 
   let currentPage = $page.url.pathname;
 
   $: isAuthenticated = data.isAuthenticated;
   $: user = data.user;
-  
+  let assigned = null;
+  let claimed = null;
+  let joined = null;
+  let credentials = null;
   onMount(async () => {
     console.log("+page.svelte onMount")
     console.log(ALL_STATES);
@@ -36,6 +40,10 @@
       goto(currentPage)
     else
       goto("/login");
+    assigned = (await getMyTasks({user})).filter((t) => t.state=== ASSIGNED);
+    claimed = await getMyClaims({user});
+    joined = await getMyCommunities({user});
+    credentials = await getMyCredentials({user});
   })
 </script>
 
@@ -66,27 +74,35 @@
         <TabContent>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <TabPane tabId="creds" tab="My credentials" active>
-            {#if !data?.credentials?.length}
+            {#if !credentials || !credentials?.length}
               <EmptyItemsCard notice="You don't have any approved credentials" />
-            {/if}
-            {#each data.credentials as credential}
+            {:else}
+            {#each credentials as credential}
               <CredentialCard uid={credential.uid} data={credential}/>
             {/each}
+            {/if}
+            
           </TabPane>
 
           <TabPane tabId="claims" tab="My claims">
-            {#if !data?.claimed?.length}
+            {#if !claimed || !claimed?.length}
               <EmptyItemsCard notice="You have no pending claims" />
+            {:else}
+              {#each claimed as claim}
+              <ClaimCard data={claim}/>
+              {/each}
             {/if}
-            {#each data.claimed as claimed}
-              <ClaimCard data={claimed}/>
-            {/each}
+          
           </TabPane>
 
           <TabPane tabId="comns" tab="My communities" on:click={() => alert()}>
-            {#each data.joined as org}
-              <CommunityCard uid={org.uid} data={org} joined={true} user={data.user}/>
-            {/each}
+            {#if !joined || !joined?.length}
+              <EmptyItemsCard notice="You have no joined any community" />
+            {:else}
+              {#each joined as org}
+                <CommunityCard uid={org.uid} data={org} joined={true} user={user}/>
+              {/each}
+            {/if}
             <div class="p-4 m-0 px-4">
               <HomeAdminsCard />
             </div>
@@ -94,10 +110,10 @@
           
           {#if user && user.hasTasks}
             <TabPane tabId="tasks" tab="My tasks">
-              {#if !data.assigned.length}
+              {#if !assigned || !assigned.length}
                 <EmptyItemsCard notice="You have no pending tasks" />
               {:else}
-                <TasksList data={data.assigned} />
+                <TasksList data={assigned} />
               {/if}
             </TabPane>
           {/if}
