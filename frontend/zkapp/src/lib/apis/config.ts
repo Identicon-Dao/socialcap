@@ -1,9 +1,8 @@
 /**
- * API Config for Devnet
+ * API Config for Production env
  */
 export const API_CONFIG = {
   protocol: "https",
-  host: "api.socialcap.dev",
+  host: "api.socialcap.app",
   port: 443,
 };
-
