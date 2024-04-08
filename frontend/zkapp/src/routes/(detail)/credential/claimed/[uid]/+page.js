@@ -8,7 +8,7 @@ export async function load({ params, route, url }) {
       if (!claim)
         throw error(404, 'Claim Not found');
     
-      return JSON.parse(JSON.stringify(aClaim));
+      return JSON.parse(JSON.stringify(claim));
     }
     throw error(404, 'Not found');
 }
