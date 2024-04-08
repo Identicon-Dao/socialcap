@@ -17,7 +17,7 @@ export async function load({ params, route, url }) {
         return {isNew: false, claimUid: params.uid, claim}
       }
 
-      return {isNew: true, planUid: params.uid}
+      return {isNew: true, planUid: params.uid, claim: null}
     }
     throw error(400, 'Not found');
 
