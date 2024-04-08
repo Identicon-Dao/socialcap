@@ -87,8 +87,19 @@
 
   let 
     user = getCurrentUser();
-
+    let plan = null;
+    let org = null;
+   
   onMount(async () => {
-    user = await getCurrentUser()
+    user = await getCurrentUser();
+    plan = await getPlan(claim.planUid);
+    org = await getCommunity(claim.communityUid);
+    data.community = org.name;
+    data.type = plan.name;
+    data.description = plan.description;
+    data.image = plan.image; 
+    data.evidenceData = typeof(data.evidenceData) === 'string'
+          ? JSON.parse(data.evidenceData)
+          : data.evidenceData;  
   })
 </script>
