@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt -y upgrade 
 RUN apt install -y curl
 
-RUN curl -sL https://deb.nodesource.com/setup_19.x > install-node.sh
+RUN curl -sL https://deb.nodesource.com/setup_20.x > install-node.sh
 RUN sh install-node.sh
 RUN apt install -y nodejs
 
