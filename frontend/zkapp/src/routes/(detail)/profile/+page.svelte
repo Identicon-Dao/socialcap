@@ -57,6 +57,7 @@
     
     <Section class="section-sm w-75 bg-white p-4 border-sc mt-4">
       <h1>Edit your profile</h1>
+
       <Form class='d-flex flex-column gap-2'>
         <FormGroup class="mt-3">
           <Label for="alias" class="fs-4 text-secondary d-flex ps-1 mb-1">Full name or alias</Label>
@@ -137,31 +138,41 @@
           </FormText>
         </FormGroup>
 
+        <div class="py-4 text-start">
+          <Label for="token" class="d-flex fs-4 text-bold ps-1 mb-1">
+            <a on:click={() => hiddenToken = !hiddenToken}        
+              class="me-2 text-decoration-none" 
+              href={'#'}>
+              {hiddenToken ? '> Show API token' : '< Hide API token' }
+            </a>
+          </Label>
+          {#if !hiddenToken}
+            <p class="text-break border rounded-1 p-2">
+              {getAPIConfig().authorization.replace('Bearer ','')}
+            </p>
+          {/if}
+        </div>
 
-          <Button
-        size="md"
-        class="px-3 py-4 rounded-3 bg-primary text-white border-0"
-        on:click={() => saveProfile()}
-      >
-         {#if loading }
-           Saving...
-        {:else}
-            Save changes
-        {/if}
-       
-      </Button>
-
-
-
-        </Form>
-      </Section>        
+        <Button
+          size="md"
+          class="px-3 py-4 rounded-3 bg-primary text-white border-0"
+          on:click={() => saveProfile()}
+          >
+           {#if loading }
+             Saving...
+          {:else}
+              Save changes
+          {/if}
+        </Button>
+      </Form>
+    </Section>        
       
-      <!-- <Filler n=40/> -->
-    </div>
-    </DetailPageContent>
+    <!-- <Filler n=40/> -->
+  </div>
+</DetailPageContent>
     
-    <script>
-      import { onMount } from "svelte";
+<script>
+  import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
   import Filler from "$lib/components/Filler.svelte";
   import Sidenote from "@components/Sidenote.svelte";
@@ -171,14 +182,16 @@
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-  import { object_without_properties } from "svelte/internal";
   import { updateProfile } from "@apis/mutations";
+  import { getAPIConfig } from "$lib/globals";
+	import { validateUserToken } from "@utilities/auth";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
   let 
     user = getCurrentUser(), 
-    firstTime = false;
+    firstTime = false,
+    hiddenToken = true;
 
   onMount(() => {
     user = getCurrentUser();
