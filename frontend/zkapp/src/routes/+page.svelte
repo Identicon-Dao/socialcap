@@ -23,6 +23,7 @@
   import Device from 'svelte-device-info'
 	import Mobile from "@components/errors/Mobile.svelte";
 	import { getMyClaims, getMyTasks, getMyCommunities, getMyCredentials } from "@apis/queries";
+  import { ASSIGNED, ACTIVE } from '@models/states';
   export let data; // this is the data for the lists
 
   let currentPage = $page.url.pathname;
