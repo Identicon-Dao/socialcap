@@ -129,7 +129,7 @@
   import EvidenceForm from "./EvidenceForm.svelte";
   import ConfirmSubmitDialog from "./ConfirmSubmitDialog.svelte";
   import { isAllValid } from "./validations";
-
+  
   export let data; // this is the data for this MasterPlan and empty Claim
   const minFee = 2; // Todo get from API
   let user = getCurrentUser();
