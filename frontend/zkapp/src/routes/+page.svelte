@@ -4,7 +4,6 @@
   import { page } from "$app/stores";
   import { isFirstTimeUser } from "@models/current-user";
   import { ALL_STATES } from "@models/states";
-  import { ASSIGNED } from "@socialcap/contracts-lib";
 
   // Ui components
 	import { Spinner, Icon, TabContent, TabPane, Button } from 'sveltestrap';
