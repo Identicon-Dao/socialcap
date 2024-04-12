@@ -131,8 +131,6 @@
   import EvidenceForm from "./EvidenceForm.svelte";
   import ConfirmSubmitDialog from "./ConfirmSubmitDialog.svelte";
   import { isAllValid } from "./validations";
-  import { fixEvidenceData } from './fix-evidence-data';
-  import { UID } from "@utilities/uid";
   
   export let data; // this is the data for this MasterPlan and empty Claim
   let { claim, isNew, claimUid, planUid } = data;

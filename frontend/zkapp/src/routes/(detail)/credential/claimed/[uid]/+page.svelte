@@ -82,7 +82,7 @@
   import { prettyDate } from "@utilities/datetime";
   import StateBadge from "@components/badges/StateBadge.svelte";
   import ClaimPreview from "@components/claims/ClaimPreview.svelte";
-
+  import { getPlan, getCommunity } from "@apis/queries";
   export let data; // this is the data for this MasterPlan and empty Claim
 
   let 

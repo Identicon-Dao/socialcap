@@ -126,7 +126,7 @@
   import ClaimCard from "@components/cards/ClaimCard.svelte";
   import EmptyItemsCard from "@components/cards/EmptyItemsCard.svelte";
   import CredentialCard from '@components/cards/CredentialCard.svelte';
-  import { getMyClaims, getMyCredentials } from '@apis/queries';
+  import { getMyClaims, getMyCredentials, getMyClaimables } from '@apis/queries';
   import { APPROVED } from "@models/states";
 
   export let data;
@@ -144,6 +144,7 @@
     claimed = await getMyClaims(params);
     credentials = await getMyCredentials({user, communityUid: params.uid});
     approvedClaims = data.claims.filter((c) => c.state == APPROVED);
-    claimables = await getClaimables(params.uid)
+    // claimables = await getMyClaimables(params.uid)
+    claimables = [];
   })
 </script>
