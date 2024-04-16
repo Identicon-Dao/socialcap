@@ -10,7 +10,8 @@ npm run build
 #node build/index.js
 
 # deploy to Socialcap server
-rsync -vh -az ./build/ socialcap:~/ui/build
-rsync -vh -az ./docker/ socialcap:~/ui/docker
-scp ./package.json socialcap:~/ui/package.json
+rsync -vh -az ./build/ socialcap-main:~/ui/build
+rsync -vh -az ./docker/ socialcap-main:~/ui/docker
+scp ./package.json socialcap-main:~/ui/package.json
+scp ./package-lock.json socialcap-main:~/ui/package-lock.json
 
