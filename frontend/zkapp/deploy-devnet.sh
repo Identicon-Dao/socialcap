@@ -16,7 +16,8 @@ npm run build
 rsync -vh -az ./build/ socialcap-dev:~/ui/build
 rsync -vh -az ./docker/ socialcap-dev:~/ui/docker
 scp ./package.json socialcap-dev:~/ui/package.json
+scp ./package-lock.json socialcap-dev:~/ui/package-lock.json
 
 # Rebuild docker and restart Nginx 
-ssh socialcap-dev 'sudo -S sh docker/run-docker.sh'
+ssh socialcap-dev 'cd /home/socialcap-dev/ui; sudo -S sh docker/run-docker.sh'
 ssh socialcap-dev 'sudo -S /etc/init.d/nginx restart'
