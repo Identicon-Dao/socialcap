@@ -11,7 +11,7 @@ export async function load({ params, route, url }) {
   if (params.uid !== "") {
       const isNew = url.searchParams.get('isnew', null);
       if (isNew === null) {
-        let claim = await getClaim(claimUid);
+        let claim = await getClaim(params.uid);
         if (!claim)
           throw error(404, 'Claim Not found');
         return {isNew: false, claimUid: params.uid, claim}
