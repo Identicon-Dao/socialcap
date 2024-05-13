@@ -144,6 +144,17 @@
             class="w-50"
             bind:value={data.fee} 
             />
+          <StdFormField 
+            label="Payed by" 
+            type="select" 
+            options={[
+              { value: 1, text: "The applicant"},
+              { value: 2, text: "The community"},
+            ]}
+            help="Who will pay for this credential ?"
+            class="w-50"
+            bind:value={data.payedBy} 
+            />
           <div class="row">
             <div class="col-4">
               <StdFormField 
